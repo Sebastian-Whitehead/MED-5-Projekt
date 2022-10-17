@@ -1,27 +1,33 @@
 Shader "Unlit/Lerp" {
     Properties {
         _BaseColor ("BaseColor", Color) = (0, 0, 0, 1)
-        _ColorA ("ColorA", Color) = (0, 0, 0, 1)
-        _ColorB ("ColorB", Color) = (1, 1, 1, 1)
-        _ColorStart ("Start", range(0, 1)) = 1.0
-        _ColorEnd ("End", range(0, 1)) = 1.0
+
+        [Header(Major gradient)]
+        _Value0 ("Transparency", range(0, 1)) = 1.0
+        _ColorStartL ("Upper", range(0, 1)) = 1.0
+        _ColorEndL ("Lower", range(-1, 1)) = 1.0
+
+        [Header(Minor gradient)]
+        _Value1 ("Transparency", range(0, 1)) = 1.0
+        _ColorStartS ("Upper", range(0, 1)) = 1.0
+        _ColorEndS ("Lower", range(-1, 1)) = 1.0
     }
 
     SubShader {
         Tags { "RenderType" = "Opaque" }
-        LOD 100
 
         Pass {
 
             Blend SrcAlpha OneMinusSrcAlpha
             ColorMask RGB
 
+            Cull Back
+            ZWrite Off
+            ZTest Off
+
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            // make fog work
-            #pragma multi_compile_fog
-
             #include "UnityCG.cginc"
 
             struct appdata {
@@ -31,17 +37,18 @@ Shader "Unlit/Lerp" {
 
             struct v2f {
                 float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
             };
 
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
             float4 _BaseColor;
-            float4 _ColorA;
-            float4 _ColorB;
-            float _ColorStart;
-            float _ColorEnd;
+
+            float _Value0;
+            float _ColorStartS;
+            float _ColorEndS;
+            
+            float _Value1;
+            float _ColorStartL;
+            float _ColorEndL;
 
             v2f vert (appdata v) {
                 v2f o;
@@ -58,10 +65,17 @@ Shader "Unlit/Lerp" {
 
                 fixed4 col = _BaseColor;
 
-                float t = InverseLerp( _ColorStart, _ColorEnd, i.uv.x );
-                float4 mask = clamp(lerp( _ColorA, _ColorB, t ), 0, 1);
+                float tL = clamp(
+                    InverseLerp( _ColorStartL, _ColorEndL, i.uv.x ),
+                    0, _Value0);
 
-                col.a *= mask;
+                float tS = clamp(
+                    InverseLerp( _ColorStartS, _ColorEndS, i.uv.x ),
+                    0, _Value1);
+
+                float4 t = tL + tS;
+
+                col.a *= t;
 
                 return col;
             }
