@@ -3,12 +3,12 @@ Shader "Unlit/Lerp" {
         _BaseColor ("BaseColor", Color) = (0, 0, 0, 1)
 
         [Header(Major gradient)]
-        _Value0 ("Transparency", range(0, 1)) = 1.0
+        _ValueL ("Transparency", range(0, 1)) = 1.0
         _ColorStartL ("Upper", range(0, 1)) = 1.0
         _ColorEndL ("Lower", range(-1, 1)) = 1.0
 
         [Header(Minor gradient)]
-        _Value1 ("Transparency", range(0, 1)) = 1.0
+        _ValueS ("Transparency", range(0, 1)) = 1.0
         _ColorStartS ("Upper", range(0, 1)) = 1.0
         _ColorEndS ("Lower", range(-1, 1)) = 1.0
     }
@@ -42,11 +42,11 @@ Shader "Unlit/Lerp" {
 
             float4 _BaseColor;
 
-            float _Value0;
+            float _ValueS;
             float _ColorStartS;
             float _ColorEndS;
             
-            float _Value1;
+            float _ValueL;
             float _ColorStartL;
             float _ColorEndL;
 
@@ -67,11 +67,11 @@ Shader "Unlit/Lerp" {
 
                 float tL = clamp(
                     InverseLerp( _ColorStartL, _ColorEndL, i.uv.x ),
-                    0, _Value0);
+                    0, _ValueL);
 
                 float tS = clamp(
                     InverseLerp( _ColorStartS, _ColorEndS, i.uv.x ),
-                    0, _Value1);
+                    0, _ValueS);
 
                 float4 t = tL + tS;
 
