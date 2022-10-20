@@ -2,22 +2,48 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a96e6d6b-5426-43e1-a2ea-52c30638e941" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Destory_On_XR_Pickup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DestroyOnXRPickup.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Destory_On_XR_Pickup.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DestroyOnXRPickup.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Hand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Hand.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HandController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/HandController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HapticController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/HapticController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.VR 2 trying again/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VR 2 trying again/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Colours.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Colours/Black.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Colours/Black.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Colours/Blue.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Colours/Blue.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Colours/New Material 1.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Colours/New Material 1.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Colours/New Material.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Colours/New Material.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Colours/Pink.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Colours/Pink.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Colours/Red.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Colours/Red.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Colours/Tan.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Colours/Tan.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Colours/White.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Colours/White.mat.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Startup.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Startup.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/VR.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/VR.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/FadeScreen.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/SceneTransitionManager.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="Toolset" />
+  </component>
   <component name="ProjectId" id="2GOG5DER7XBqPkeQqJBd0wCnaQS" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -28,6 +54,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -70,6 +97,7 @@
       <option name="presentableId" value="Default" />
       <updated>1666252033985</updated>
       <workItem from="1666252043883" duration="2945000" />
+      <workItem from="1666266295857" duration="3892000" />
     </task>
     <servers />
   </component>
