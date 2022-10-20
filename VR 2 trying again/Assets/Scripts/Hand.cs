@@ -6,20 +6,25 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]        //Code cannot run without field being filled
 public class Hand : MonoBehaviour
 {
-    Animator animator;
-    SkinnedMeshRenderer mesh;
-    private float gripTarget;       // Recieved grip float from controller "handcontroller.cs"
-    private float triggerTarget;    // Recieved trigger float from controller "handcontroller.cs"
-    private float gripCurrent;      // Current grip float of model
-    private float triggerCurrent;   // Current trigger float of model 
-    public float speed;             // Animation Interpolation Speed
-    private string animatorGripParam = "Grip";          // Animator Varriable Name
-    private string animatorTriggerParam = "Trigger";    // Animator Varriable Name
+    private Animator _animator;     //animation controller on same hand model
+    private SkinnedMeshRenderer _mesh;
+    
+    private float _gripTarget;       // Received grip float from controller "HandController.cs"
+    private float _triggerTarget;    // Received trigger float from controller "HandController.cs"
+    
+    private float _gripCurrent;      // Current grip float of model
+    private float _triggerCurrent;   // Current trigger float of model 
+    public float speed;              // Animation Interpolation Speed
+    private static readonly int Grip = Animator.StringToHash(AnimatorGripParam);
+    private static readonly int Trigger = Animator.StringToHash(AnimatorTriggerParam);
 
-    void Start()
+    private const string AnimatorGripParam = "Grip"; // Animator Variable Name
+    private const string AnimatorTriggerParam = "Trigger";    // Animator Variable Name
+
+    private void Start()
     {
-        animator = GetComponent<Animator>();
-        mesh = GetComponentInChildren<SkinnedMeshRenderer>();
+        _animator = GetComponent<Animator>();
+        _mesh = GetComponentInChildren<SkinnedMeshRenderer>();
     }
 
     // Update is called once per frame
@@ -28,34 +33,34 @@ public class Hand : MonoBehaviour
         AnimateHand();    
     }
 
-    internal void SetGrip(float v)      // Recieve Grip Float 
+    internal void SetGrip(float v)      // Receive Grip Float 
     {
-        gripTarget = v;
+        _gripTarget = v;
     }
 
-    internal void SetTrigger(float v)   // Recieve Trigger Float
+    internal void SetTrigger(float v)   // Receive Trigger Float
     {
-        triggerTarget = v;
+        _triggerTarget = v;
     }
 
     void AnimateHand()
     {
-        if (gripCurrent != gripTarget)
+        if (_gripCurrent != _gripTarget)
         {
-            //interpolates between current model positon and recieved controller position at a given speed
-            gripCurrent = Mathf.MoveTowards(gripCurrent, gripTarget, Time.deltaTime * speed);  
-            animator.SetFloat(animatorGripParam, gripCurrent);      //set parameter inside animator
+            //interpolates between current model position and received controller position at a given speed
+            _gripCurrent = Mathf.MoveTowards(_gripCurrent, _gripTarget, Time.deltaTime * speed);  
+            _animator.SetFloat(Grip, _gripCurrent);      //set parameter inside animator
         }
-        if (triggerCurrent != triggerTarget)
+        if (_triggerCurrent != _triggerTarget)
         {
-            triggerCurrent = Mathf.MoveTowards(triggerCurrent, triggerTarget, Time.deltaTime * speed);
-            animator.SetFloat(animatorTriggerParam, triggerCurrent);    //set paramater inside animtor
+            _triggerCurrent = Mathf.MoveTowards(_triggerCurrent, _triggerTarget, Time.deltaTime * speed);
+            _animator.SetFloat(Trigger, _triggerCurrent);    //set parameter inside animator
         }
 
     }
 
     public void ToggleVisibility()
     {
-        mesh.enabled = !mesh.enabled;
+        _mesh.enabled = !_mesh.enabled;
     }
 }

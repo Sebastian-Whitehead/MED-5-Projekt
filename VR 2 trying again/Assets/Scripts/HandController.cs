@@ -6,19 +6,18 @@ using UnityEngine.XR.Interaction.Toolkit;
 [RequireComponent(typeof(ActionBasedController))]
 public class HandController : MonoBehaviour
 {
-    ActionBasedController controller;
+    private ActionBasedController _controller;
     public Hand hand;
 
-    void Start()
+    private void Start()
     {
-        controller = GetComponent<ActionBasedController>();
-        
+        _controller = GetComponent<ActionBasedController>();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        hand.SetGrip(controller.selectAction.action.ReadValue<float>());
-        hand.SetTrigger(controller.activateAction.action.ReadValue<float>());
+        hand.SetGrip(_controller.selectAction.action.ReadValue<float>());
+        hand.SetTrigger(_controller.activateAction.action.ReadValue<float>());
     }
 }

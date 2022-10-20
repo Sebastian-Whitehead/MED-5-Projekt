@@ -24,7 +24,7 @@ public class HapticController : MonoBehaviour
         rightController.SendHapticImpulse(amplitude, duration);
     }
 
-    public static void SendHaptics(bool isLeftController, float amplitude, float duration) // Pulse left or right controller with defined values [OVERLAOD2]
+    public static void SendHaptics(bool isLeftController, float amplitude, float duration) // Pulse left or right controller with defined values [OVERLOAD2]
     {
         if (isLeftController)
         {
