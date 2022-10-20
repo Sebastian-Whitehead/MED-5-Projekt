@@ -375,7 +375,7 @@ GameObject:
   - component: {fileID: 7631979392610453391}
   - component: {fileID: 7631979392610453424}
   m_Layer: 0
-  m_Name: XR Origin
+  m_Name: XR Origin (prefab not working)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
