@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneTransitionManager : MonoBehaviour
 {
@@ -17,5 +18,6 @@ public class SceneTransitionManager : MonoBehaviour
         yield return new WaitForSeconds(fadeScreen.fadeDuration);
         
         //Launch the new scene
+        SceneManager.LoadScene(sceneIndex);
     }
 }
