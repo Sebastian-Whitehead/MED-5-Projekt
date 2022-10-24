@@ -183,6 +183,7 @@ GameObject:
   m_Component:
   - component: {fileID: 21230329}
   - component: {fileID: 21230328}
+  - component: {fileID: 21230330}
   m_Layer: 0
   m_Name: XR Interaction Manager
   m_TagString: Untagged
@@ -217,6 +218,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &21230330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 21230327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 017c5e3933235514c9520e1dace2a4b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ActionAssets:
+  - {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!1001 &43931544
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -229,6 +244,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Transition Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 6285694301383350037, guid: bd2898e2b563c064fbaeeb666cc9d28a,
+        type: 3}
+      propertyPath: fadeScreen
+      value: 
+      objectReference: {fileID: 1121284478}
     - target: {fileID: 6285694301383350038, guid: bd2898e2b563c064fbaeeb666cc9d28a,
         type: 3}
       propertyPath: m_RootOrder
@@ -1080,6 +1100,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1121284476}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1121284478 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8834633303280019632, guid: 887f38ef79e774140a9427fc50520e58,
+    type: 3}
+  m_PrefabInstance: {fileID: 1121284476}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdf67806dffeb3144b17b71c50c04c50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1222507888
 GameObject:
   m_ObjectHideFlags: 0
@@ -1408,7 +1440,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1816512460}
   - component: {fileID: 1816512459}
-  - component: {fileID: 1816512458}
   - component: {fileID: 1816512457}
   - component: {fileID: 1816512456}
   m_Layer: 0
@@ -1505,19 +1536,6 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: -6493913391331992944, guid: c348712bda248c246b8c49b3db54643f,
       type: 3}
---- !u!114 &1816512458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1816512455}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01f69dc1cb084aa42b2f2f8cd87bc770, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_System: {fileID: 1816512459}
 --- !u!114 &1816512459
 MonoBehaviour:
   m_ObjectHideFlags: 0
