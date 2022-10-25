@@ -1675,8 +1675,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1170900880}
-        m_TargetAssemblyTypeName: Destory_On_XR_Pickup, Assembly-CSharp
-        m_MethodName: DestoryGameObject
+        m_TargetAssemblyTypeName: DestroyOnXRPickup, Assembly-CSharp
+        m_MethodName: DestroyGameObject
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
