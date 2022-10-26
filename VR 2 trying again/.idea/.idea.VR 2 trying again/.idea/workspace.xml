@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a96e6d6b-5426-43e1-a2ea-52c30638e941" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Fixed Shimmer.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Fixed Shimmer.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SceneTransitionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SceneTransitionManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.VR 2 trying again/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VR 2 trying again/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,7 +11,9 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/FadeScreen.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/SceneTransitionManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Hand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/HandController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/SceneTransitionManager.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -82,6 +83,7 @@
       <workItem from="1666344971732" duration="263000" />
       <workItem from="1666347307113" duration="349000" />
       <workItem from="1666596580106" duration="176000" />
+      <workItem from="1666602403972" duration="850000" />
     </task>
     <servers />
   </component>
