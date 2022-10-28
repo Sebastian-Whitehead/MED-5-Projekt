@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="a96e6d6b-5426-43e1-a2ea-52c30638e941" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.VR 2 trying again/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VR 2 trying again/.idea/workspace.xml" afterDir="false" />
@@ -92,7 +95,7 @@
       <workItem from="1666778239539" duration="423000" />
       <workItem from="1666780708935" duration="7321000" />
       <workItem from="1666941316642" duration="2000" />
-      <workItem from="1666941352493" duration="387000" />
+      <workItem from="1666941352493" duration="1660000" />
     </task>
     <servers />
   </component>
