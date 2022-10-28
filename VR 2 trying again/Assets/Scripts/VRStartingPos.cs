@@ -12,7 +12,7 @@ public class VRStartingPos : MonoBehaviour
     public GameObject viewTarget;
     private Renderer _targetRenderer;
     private bool _lookingAt = false;
-    private string targetScene;
+    private string _targetScene;
 
     // Start is called before the first frame update
     void Start()
@@ -44,11 +44,11 @@ public class VRStartingPos : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            targetScene = "VR 1";
+            _targetScene = "VR 1";
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            targetScene = "VR 2";
+            _targetScene = "VR 2";
         }
     }
 
@@ -58,9 +58,11 @@ public class VRStartingPos : MonoBehaviour
         if (leftHandZone.CheckCollision() && rightHandZone.CheckCollision() && _lookingAt)
         {
             //Debug.Log("All requirements met");
-            if (targetScene != null)
+            if (_targetScene != null)
             {
-                transitionManager.GoToScene(targetScene);
+                transitionManager.GoToScene(_targetScene);
+                viewTarget.GetComponent<AudioClip>();
+                
             }
         }
     }
