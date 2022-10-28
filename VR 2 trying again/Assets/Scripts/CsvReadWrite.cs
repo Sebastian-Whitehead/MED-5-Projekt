@@ -13,7 +13,7 @@ public class CsvReadWrite : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        InvokeRepeating("Save", 0.5f, 0.5f);
+        InvokeRepeating("Save", 1.0f, 1.0f);
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
@@ -30,7 +30,7 @@ public class CsvReadWrite : MonoBehaviour
         // You can add up the values in as many cells as you want.
         for (int i = 0; i < 5; i++)
         {
-            rowDataTemp = new string[90];
+            rowDataTemp = new string[3];
             /* rowDataTemp[0] = "Sushanta"+i; // name
              rowDataTemp[1] = ""+i; // ID */
             rowDataTemp[2] = "$" + transform.position; // Income
