@@ -13,9 +13,16 @@ public class CsvReadWrite : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        First();
         InvokeRepeating("Save", 1.0f, 1.0f);
     }
 
+
+    void First(){
+        string[] rowDataTemp = new string[3];
+         rowDataTemp[0] = "New Participant";
+          
+    }
     // ReSharper disable Unity.PerformanceAnalysis
     void Save()
     {
