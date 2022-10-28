@@ -97,10 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: bd7ad2b47bdf8b6499fe2d659e5ef49b,
-    type: 2}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: 2de26048d531b024e816dc0d045201b7,
-    type: 2}
+  m_LightingDataAsset: {fileID: 0}
+  m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -821,7 +819,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 182745108}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.2
@@ -988,7 +986,7 @@ PrefabInstance:
     - target: {fileID: 4037256519049080736, guid: 53e605e11c5b7ef4597e53a28ae2c887,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.73
+      value: 2.8815448
       objectReference: {fileID: 0}
     - target: {fileID: 4037256519049080736, guid: 53e605e11c5b7ef4597e53a28ae2c887,
         type: 3}
@@ -3338,7 +3336,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1222507888}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.2
@@ -4315,7 +4313,7 @@ MonoBehaviour:
   m_GravityApplicationMode: 0
   m_ForwardSource: {fileID: 0}
   m_LeftHandMoveAction:
-    m_UseReference: 1
+    m_UseReference: 0
     m_Action:
       m_Name: Left Hand Move
       m_Type: 0
@@ -4328,7 +4326,7 @@ MonoBehaviour:
     m_Reference: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f,
       type: 3}
   m_RightHandMoveAction:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
       m_Name: Right Hand Move
       m_Type: 0
@@ -4358,7 +4356,7 @@ MonoBehaviour:
   m_EnableTurnLeftRight: 1
   m_EnableTurnAround: 1
   m_LeftHandSnapTurnAction:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
       m_Name: Left Hand Snap Turn
       m_Type: 0
@@ -4371,7 +4369,7 @@ MonoBehaviour:
     m_Reference: {fileID: 1010738217276881514, guid: c348712bda248c246b8c49b3db54643f,
       type: 3}
   m_RightHandSnapTurnAction:
-    m_UseReference: 1
+    m_UseReference: 0
     m_Action:
       m_Name: Right Hand Snap Turn
       m_Type: 0

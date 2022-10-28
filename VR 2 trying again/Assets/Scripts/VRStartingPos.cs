@@ -46,7 +46,15 @@ public class VRStartingPos : MonoBehaviour
         if (leftHandZone.CheckCollision() && rightHandZone.CheckCollision() && _lookingAt)
         {
             Debug.Log("All requirements met");
-            SceneManager.LoadScene("VR 1");
+            //Change scenes if 1 or 2 is pressed.
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                SceneManager.LoadScene("VR 1"); 
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                SceneManager.LoadScene("VR 2");
+            }
         }
     }
 }
