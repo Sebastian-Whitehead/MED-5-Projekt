@@ -46,7 +46,7 @@ public class VRStartingPos : MonoBehaviour
         if (leftHandZone.CheckCollision() && rightHandZone.CheckCollision() && _lookingAt)
         {
             Debug.Log("All requirements met");
-            SceneManager.LoadScene("VR 1", LoadSceneMode.Additive);
+            SceneManager.LoadScene("VR 1");
         }
     }
 }
