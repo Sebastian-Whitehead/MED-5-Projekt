@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DestroyOnXRPickup : MonoBehaviour {
+    public gameObject counter;
 
     public void DestroyGameObject() {
-        gameObject.GetComponent<Count>().countUp();
-        
+        counter.Count.countUp();
+        gameObject.Find(countiing).GetComponent<Count>().countUp();
+
         Destroy(gameObject, 1.5f);
     }
 }
