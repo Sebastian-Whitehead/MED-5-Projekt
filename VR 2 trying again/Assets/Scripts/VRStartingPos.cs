@@ -7,10 +7,12 @@ public class VRStartingPos : MonoBehaviour
 {
     public CheckPosCollision leftHandZone;
     public CheckPosCollision rightHandZone;
-    
+    public SceneTransitionManager transitionManager;
+
     public GameObject viewTarget;
     private Renderer _targetRenderer;
     private bool _lookingAt = false;
+    private string targetScene;
 
     // Start is called before the first frame update
     void Start()
@@ -39,21 +41,26 @@ public class VRStartingPos : MonoBehaviour
             
             }
         }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            targetScene = "VR 1";
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            targetScene = "VR 2";
+        }
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     void CheckStartingPos()
     {
         if (leftHandZone.CheckCollision() && rightHandZone.CheckCollision() && _lookingAt)
         {
-            Debug.Log("All requirements met");
-            //Change scenes if 1 or 2 is pressed.
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            //Debug.Log("All requirements met");
+            if (targetScene != null)
             {
-                SceneManager.LoadScene("VR 1"); 
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                SceneManager.LoadScene("VR 2");
+                transitionManager.GoToScene(targetScene);
             }
         }
     }

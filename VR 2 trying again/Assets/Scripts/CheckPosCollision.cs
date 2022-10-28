@@ -19,7 +19,7 @@ public class CheckPosCollision : MonoBehaviour
     {
         if (col.name == target.name)
         {
-            Debug.Log(" Correct collision!");
+            //Debug.Log(" Correct collision!");
             _renderer.material.color = Color.green;
             _collisionState = true;
         }

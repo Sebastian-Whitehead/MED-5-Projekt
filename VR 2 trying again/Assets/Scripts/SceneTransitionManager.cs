@@ -7,17 +7,17 @@ public class SceneTransitionManager : MonoBehaviour
 {
     public FadeScreen fadeScreen;
 
-    public void GoToScene(int sceneIndex)
+    public void GoToScene(string sceneName)
     {
-        StartCoroutine(GoToSceneRoutine(sceneIndex));
+        StartCoroutine(GoToSceneRoutine(sceneName));
     }
     
-    IEnumerator GoToSceneRoutine(int sceneIndex)
+    IEnumerator GoToSceneRoutine(string sceneName)
     {
         fadeScreen.FadeOut();
         yield return new WaitForSeconds(fadeScreen.fadeDuration);
         
         //Launch the new scene
-        SceneManager.LoadScene(sceneIndex);
+        SceneManager.LoadScene(sceneName);
     }
 }
