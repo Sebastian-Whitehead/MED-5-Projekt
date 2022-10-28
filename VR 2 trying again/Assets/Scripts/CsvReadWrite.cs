@@ -21,7 +21,7 @@ public class CsvReadWrite : MonoBehaviour
     void First(){
         string[] rowDataTemp = new string[3];
          rowDataTemp[0] = "New Participant";
-         rowData.Add(rowDataTemp);
+         _rowData.Add(rowDataTemp);
           
     }
     // ReSharper disable Unity.PerformanceAnalysis
