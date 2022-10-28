@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class VRStartingPos : MonoBehaviour
 {
@@ -45,7 +46,7 @@ public class VRStartingPos : MonoBehaviour
         if (leftHandZone.CheckCollision() && rightHandZone.CheckCollision() && _lookingAt)
         {
             Debug.Log("All requirements met");
-            // Change Scene
+            SceneManager.LoadScene("VR 1", LoadSceneMode.Additive);
         }
     }
 }
