@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17409098, g: 0.21769783, b: 0.29988855, a: 1}
+  m_IndirectSpecularColor: {r: 0.17409074, g: 0.21769749, b: 0.29988798, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -385,7 +385,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &51166154
 PrefabInstance:
@@ -1768,6 +1768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb4a3efb95322541959e99b683fe725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OldPos: {x: 0, y: 0, z: 0}
 --- !u!82 &722170242
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2796,7 +2797,7 @@ Transform:
   - {fileID: 1535959864}
   - {fileID: 1027132850}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1066993990
 PrefabInstance:
@@ -3976,75 +3977,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af4dc2d677a566f4aba60df31261073c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1421690474
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2995160408571092161, guid: 962a6db1f3ff2e84bbcbe113c03d9ec7,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2995160408571092161, guid: 962a6db1f3ff2e84bbcbe113c03d9ec7,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2995160408571092161, guid: 962a6db1f3ff2e84bbcbe113c03d9ec7,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.073
-      objectReference: {fileID: 0}
-    - target: {fileID: 2995160408571092161, guid: 962a6db1f3ff2e84bbcbe113c03d9ec7,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2995160408571092161, guid: 962a6db1f3ff2e84bbcbe113c03d9ec7,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2995160408571092161, guid: 962a6db1f3ff2e84bbcbe113c03d9ec7,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2995160408571092161, guid: 962a6db1f3ff2e84bbcbe113c03d9ec7,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2995160408571092161, guid: 962a6db1f3ff2e84bbcbe113c03d9ec7,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2995160408571092161, guid: 962a6db1f3ff2e84bbcbe113c03d9ec7,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2995160408571092161, guid: 962a6db1f3ff2e84bbcbe113c03d9ec7,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2995160408571092161, guid: 962a6db1f3ff2e84bbcbe113c03d9ec7,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2995160408571092165, guid: 962a6db1f3ff2e84bbcbe113c03d9ec7,
-        type: 3}
-      propertyPath: m_Name
-      value: Center Starting Point
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 962a6db1f3ff2e84bbcbe113c03d9ec7, type: 3}
 --- !u!1001 &1531217499
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6119,7 +6051,7 @@ Transform:
   - {fileID: 7877547417438030789}
   - {fileID: 233647952}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1546936412676170109
 MeshRenderer:
@@ -8065,7 +7997,7 @@ PrefabInstance:
     - target: {fileID: 4256845653871394358, guid: 29abe81febfe687408bc527923d7e6bf,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4256845653871394358, guid: 29abe81febfe687408bc527923d7e6bf,
         type: 3}
