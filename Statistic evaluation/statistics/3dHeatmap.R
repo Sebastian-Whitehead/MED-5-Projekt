@@ -6,6 +6,7 @@ library(data.table)
 matrixSize = 25 # Number of physical "fields" in each dimension
 rowLength = 4 # Amount of columns
 placementPath = "placement3.csv"
+showPermaGuardian = TRUE
 
 placeData <- read.csv(placementPath, header=FALSE) # Read data from file
 placeData <- t(placeData) # Transpose data
@@ -21,8 +22,11 @@ for (i in 1:ncol(placeData)) {
   halfX = tmp_participant$X + matrixSize / 2
   halfZ = tmp_participant$Z + matrixSize / 2
   boxNumber <- round(halfX * matrixSize + halfZ)
-  boxNumbers <- rbind(boxNumbers, boxNumber)
+  if (i %% 2 == as.integer(showPermaGuardian)) {
+    boxNumbers <- rbind(boxNumbers, boxNumber)
+  }
 }
+boxNumbers
 
 ###############################################################
 
@@ -47,7 +51,7 @@ y = seq(matrixSize/2, -matrixSize/2+1, by=-1)
 # Convert Z values into a matrix.
 z = matrix(placeValues, nrow=matrixSize, ncol=matrixSize, byrow=TRUE)
 
-plot <- hist3D(
+hist3D(
   x, y, z,
   main="Placement representation each frame",
   clab=c("Frame count", "(Normalized)"),
