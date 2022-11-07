@@ -24,25 +24,30 @@ public class CsvReadWrite : MonoBehaviour
         rowDataTemp[0] = "New Participant";
         _rowData.Add(rowDataTemp);
     }
+
+
+    //float w = Mathf.Sqrt((new X - old X) * (new X - old X) + (new Z - old Z) * (new Z - old Z))
+
     // ReSharper disable Unity.PerformanceAnalysis
+    public Vector3 OldPos = new Vector3 (0f,0f,0f);
+
+
     void Save()
     {
         // Creating First row of titles manually..
         string[] rowDataTemp = new string[3];
-        /*  rowDataTemp[0] = "Name";
-          rowDataTemp[1] = "ID";
-          rowDataTemp[2] = "Income";
-          rowData.Add(rowDataTemp);
-          */
 
         // You can add up the values in as many cells as you want.
         for (int i = 0; i < 1; i++)
         {
-            rowDataTemp = new string[3];
-            /* rowDataTemp[0] = "Sushanta"+i; // name
-             rowDataTemp[1] = ""+i; // ID */
-            rowDataTemp[2] = "$" + transform.position; // Income
+            rowDataTemp = new string[1];
+            float W = Mathf.Sqrt(Mathf.Pow((transform.position[0] - OldPos[0]),2) + Mathf.Pow((transform.position[2] - OldPos[2]),2));
+            rowDataTemp[0] = transform.position.x +","+ transform.position.y +","+ transform.position.z +","+ W; 
+
+            OldPos = transform.position;
             _rowData.Add(rowDataTemp);
+
+            
         }
     }
 
