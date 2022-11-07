@@ -4,7 +4,7 @@
 # TODO:
 # - Change label names in legend
 # - Normalize data
-# - Set width and height to 1,1
+# - Set width and height to 1, 1
 
 # Importing libraries
 library(ggplot2)
@@ -61,7 +61,7 @@ meanLocation$Guardian <- as.factor(meanLocation$Guardian) # Integar Guardian-val
 
 ########## Show data ##########
 
-ggplot(
+plot <- ggplot(
   data=meanLocation,
   aes(x=Movement, y=Immersion, color=Guardian)) +
   geom_point(size=5) +
@@ -75,10 +75,6 @@ ggplot(
   # labs(title = "#######",
   #      subtitle = "#######",
   #      caption = "#######")
+plot
 
-########## Print data ##########
-
-# separatedList
-# separatedList[1]
-# data.frame(separatedList[1])$W
-# mean(data.frame(separatedList[1])$W) # Get mean of all w-values in one participant
+ggsave(plot, filename="immersionOverMovement.png") # Save graph as PNG
