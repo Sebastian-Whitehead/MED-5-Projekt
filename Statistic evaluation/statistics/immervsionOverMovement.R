@@ -9,11 +9,12 @@
 # Importing libraries
 library(ggplot2)
 library(data.table)
+source("convertInput.R")
 
 # Static variables
-placementPath = "Nyt_tekstdokument.csv" # CSV-path for location data
+placementPath = "placement.csv" # CSV-path for location data
 rowLength = 4 # Amount of columns
-surveyPath = "nyt_sruvey.csv" # CSV-path for survey data
+surveyPath = "survey.csv" # CSV-path for survey data
 guardians = c("Meta", "Perma") # Guardian names
 
 ########## Get survey data ##########
@@ -23,7 +24,6 @@ surveyData <- t(surveyData) # Transpose data
 surveyMean = colMeans(surveyData) # Mean columns
 
 ########## Get placement data ##########
-
 placeData <- read.csv(placementPath, header=FALSE) # Read data from file
 placeData <- t(placeData) # Transpose data
 
