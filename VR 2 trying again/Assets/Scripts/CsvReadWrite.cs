@@ -29,11 +29,12 @@ public class CsvReadWrite : MonoBehaviour
     //float w = Mathf.Sqrt((new X - old X) * (new X - old X) + (new Z - old Z) * (new Z - old Z))
 
     // ReSharper disable Unity.PerformanceAnalysis
-    public Vector3 OldPos = new Vector3 (0f,0f,0f);
+    public Vector3 oldPos = new Vector3 (0f,0f,0f);
 
 
     void Save()
     {
+        float w;
         // Creating First row of titles manually..
         string[] rowDataTemp = new string[3];
 
@@ -41,14 +42,25 @@ public class CsvReadWrite : MonoBehaviour
         for (int i = 0; i < 1; i++)
         {
             rowDataTemp = new string[1];
-            float W = Mathf.Sqrt(Mathf.Pow((transform.position[0] - OldPos[0]),2) + Mathf.Pow((transform.position[2] - OldPos[2]),2));
-            rowDataTemp[0] = transform.position.x +","+ transform.position.y +","+ transform.position.z +","+ W; 
+            if (Mathf.Abs(transform.position.x) > 2 |
+                Mathf.Abs(transform.position.z) > 2) // If the player leaves the 4x4m boundary multiply the speed score with -1;
+            {
+                w = Mathf.Sqrt(Mathf.Pow((transform.position[0] - oldPos[0]), 2) +
+                               Mathf.Pow((transform.position[2] - oldPos[2]), 2)) * -1;
+            }
+            else
+            {
+                w = Mathf.Sqrt(Mathf.Pow((transform.position[0] - oldPos[0]), 2) +
+                               Mathf.Pow((transform.position[2] - oldPos[2]), 2));
+            }
 
-            OldPos = transform.position;
-            _rowData.Add(rowDataTemp);
-
-            
+            rowDataTemp[0] = transform.position.x + "," + transform.position.y + "," + transform.position.z + "," + w;
         }
+
+        oldPos = transform.position;
+        _rowData.Add(rowDataTemp);
+
+
     }
 
     void OnApplicationQuit()
