@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a96e6d6b-5426-43e1-a2ea-52c30638e941" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.VR 2 trying again/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VR 2 trying again/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Audio/pop-39222.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Audio/pop-39222.mp3.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CSV/Saved_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CSV/Saved_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/egg.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/egg.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Startup.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Startup.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DestroyOnXRPickup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DestroyOnXRPickup.cs" afterDir="false" />
-    </list>
+    <list default="true" id="a96e6d6b-5426-43e1-a2ea-52c30638e941" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -104,7 +96,7 @@
       <workItem from="1666941352493" duration="1660000" />
       <workItem from="1666945895481" duration="1075000" />
       <workItem from="1666955315371" duration="12083000" />
-      <workItem from="1667895891756" duration="3261000" />
+      <workItem from="1667895891756" duration="4403000" />
     </task>
     <servers />
   </component>
