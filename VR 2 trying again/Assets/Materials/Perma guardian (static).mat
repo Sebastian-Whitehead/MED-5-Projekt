@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Fixed Shimmer
+  m_Name: Perma guardian (static)
   m_Shader: {fileID: 4800000, guid: 9cba7767e1fbef34e9dbc56dc69b578e, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -117,15 +117,15 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _TransL: 0.304
-    - _TransOOS: 0.506
-    - _TransS: 0.672
-    - _UpperLerpL: 0.148
+    - _TransL: 0.179
+    - _TransOOS: 0.21
+    - _TransS: 0.136
+    - _UpperLerpL: 0.09
     - _UpperLerpS: 0.01
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 0.51805216, b: 0, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
