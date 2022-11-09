@@ -28,9 +28,10 @@ public class DestroyOnXRPickup : MonoBehaviour
         yield return new WaitForSeconds(delaytime);
         
         //Do the action after the delay time has finished
+         _audioManager.PlaySoundFromObject(1);   // Play the pop sound effect from the ObjectAudioManager
         Destroy(gameObject);    // Destroy Current Game Object
         _counter.countUp();     // Count up the number of eggs collected
-        _audioManager.PlaySoundFromObject(1);   // Play the pop sound effect from the ObjectAudioManager
+       
     }
 
 }
