@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a96e6d6b-5426-43e1-a2ea-52c30638e941" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.VR 2 trying again/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VR 2 trying again/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CSV/Saved_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CSV/Saved_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Fixed Shimmer.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Fixed Shimmer.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/VR 1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/VR 1.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/VR 2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/VR 2.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CsvReadWrite.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CsvReadWrite.cs" afterDir="false" />
-    </list>
+    <list default="true" id="a96e6d6b-5426-43e1-a2ea-52c30638e941" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -103,7 +96,7 @@
       <workItem from="1666941352493" duration="1660000" />
       <workItem from="1666945895481" duration="1075000" />
       <workItem from="1666955315371" duration="12083000" />
-      <workItem from="1667895891756" duration="1298000" />
+      <workItem from="1667895891756" duration="1957000" />
     </task>
     <servers />
   </component>
