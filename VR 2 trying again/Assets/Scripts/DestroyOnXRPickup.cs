@@ -18,17 +18,20 @@ public class DestroyOnXRPickup : MonoBehaviour
 
     public void DestroyGameObject() {
         _audioManager.PlaySoundFromObject(0);        // Play pickup sound effect from ObjectAudioManager
-        StartCoroutine(DelayAction(1f));    // Start Delay Subroutine
+        StartCoroutine(DelayAction(0.93f));    // Start Delay Subroutine
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
     IEnumerator DelayAction(float delaytime)
     {
+        
         //Wait for the specified delay time before continuing
         yield return new WaitForSeconds(delaytime);
         
+        _audioManager.PlaySoundFromObject(1);   // Play the pop sound effect from the ObjectAudioManager
+        yield return new WaitForSeconds(0.07f);
+
         //Do the action after the delay time has finished
-         _audioManager.PlaySoundFromObject(1);   // Play the pop sound effect from the ObjectAudioManager
         Destroy(gameObject);    // Destroy Current Game Object
         _counter.countUp();     // Count up the number of eggs collected
        
