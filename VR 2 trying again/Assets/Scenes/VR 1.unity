@@ -2189,10 +2189,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.2
   m_Height: 2.0691633
   m_Direction: 1
-  m_Center: {x: 0, y: 1.9610705, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!23 &900509443
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4826,6 +4826,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491698405124263481, guid: 244d6dda7812714489787cf997c11545,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4491698405124263481, guid: 244d6dda7812714489787cf997c11545,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 8578284945166371186, guid: 244d6dda7812714489787cf997c11545,
         type: 3}
@@ -8479,6 +8489,90 @@ Transform:
   m_Father: {fileID: 488393497}
   m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &4774692302873766647
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1224001463863189480, guid: a4de1d6744bb43f49b5e6c36a4b10e24,
+        type: 3}
+      propertyPath: m_Name
+      value: OutOfBounds Collider
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224001463863189484, guid: a4de1d6744bb43f49b5e6c36a4b10e24,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224001463863189484, guid: a4de1d6744bb43f49b5e6c36a4b10e24,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224001463863189484, guid: a4de1d6744bb43f49b5e6c36a4b10e24,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224001463863189484, guid: a4de1d6744bb43f49b5e6c36a4b10e24,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224001463863189484, guid: a4de1d6744bb43f49b5e6c36a4b10e24,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224001463863189484, guid: a4de1d6744bb43f49b5e6c36a4b10e24,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224001463863189484, guid: a4de1d6744bb43f49b5e6c36a4b10e24,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224001463863189484, guid: a4de1d6744bb43f49b5e6c36a4b10e24,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224001463863189484, guid: a4de1d6744bb43f49b5e6c36a4b10e24,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224001463863189484, guid: a4de1d6744bb43f49b5e6c36a4b10e24,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224001463863189484, guid: a4de1d6744bb43f49b5e6c36a4b10e24,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6005472948628396355, guid: a4de1d6744bb43f49b5e6c36a4b10e24,
+        type: 3}
+      propertyPath: ThefadingScreen
+      value: 
+      objectReference: {fileID: 1121284478}
+    - target: {fileID: 6459570938441128103, guid: a4de1d6744bb43f49b5e6c36a4b10e24,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6459570938441128103, guid: a4de1d6744bb43f49b5e6c36a4b10e24,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 0.9
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a4de1d6744bb43f49b5e6c36a4b10e24, type: 3}
 --- !u!33 &4779680061665467988
 MeshFilter:
   m_ObjectHideFlags: 0

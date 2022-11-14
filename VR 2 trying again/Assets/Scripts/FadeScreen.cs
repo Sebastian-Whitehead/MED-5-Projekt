@@ -5,7 +5,7 @@ using UnityEngine;
 public class FadeScreen : MonoBehaviour
 {
     public bool fadeOnStart = true;
-    public float fadeDuration = 2;
+    public float defaultFadeDuration = 2;
     public Color fadeColor;
     private Renderer _rend;
     private static readonly int Color1 = Shader.PropertyToID("_Color");
@@ -20,7 +20,12 @@ public class FadeScreen : MonoBehaviour
 
     public void Fade(float alphaIn, float alphaOut)
     {
-        StartCoroutine(FadeRoutine(alphaIn, alphaOut));
+        StartCoroutine(FadeRoutine(alphaIn, alphaOut, defaultFadeDuration));
+    }
+    
+    public void Fade(float alphaIn, float alphaOut, float fadeDuration)
+    {
+        StartCoroutine(FadeRoutine(alphaIn, alphaOut, fadeDuration));
     }
 
     public void FadeIn()
@@ -33,7 +38,7 @@ public class FadeScreen : MonoBehaviour
         Fade(0,1);
     }
 
-    public IEnumerator FadeRoutine(float alphaIn, float alphaOut)
+    public IEnumerator FadeRoutine(float alphaIn, float alphaOut, float fadeDuration)
     {
         float timer = 0;
         while (timer <= fadeDuration)

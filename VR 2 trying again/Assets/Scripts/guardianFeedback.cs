@@ -10,6 +10,8 @@ public class guardianFeedback : MonoBehaviour {
     private bool alert = false;
     private float lerp = 1f;
     private Renderer rend;
+    
+    private int insides = 0;
 
     // Start is called before the first frame update
     void Start() {
@@ -18,6 +20,7 @@ public class guardianFeedback : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        Debug.Log(insides);
         if (lerp < 1) {
             lerp += speed / 10;
             if (alert) {
@@ -29,18 +32,32 @@ public class guardianFeedback : MonoBehaviour {
     }
 
     void OnTriggerEnter(Collider other) {
-        if (other.gameObject.tag == "TrackingObject") {
+        if (other.gameObject.tag == "TrackingObject")
+        {
+            insides++;
+            
             Debug.Log("Tracking object enter guardian");
-            alert = false;
-            lerp = 0f;
+            
+            if (insides == 3)
+            {
+                alert = false;
+                lerp = 0f;
+            }
         }
     }
 
     void OnTriggerExit(Collider other) {
-        if (other.gameObject.tag == "TrackingObject") {
+        if (other.gameObject.tag == "TrackingObject")
+        {
+
+            insides--;
             Debug.Log("Tracking object exiting guardian");
-            alert = true;
-            lerp = 0f;
+
+            if (insides == 2)
+            {
+                alert = true;
+                lerp = 0f;
+            }
         }
     }
 }

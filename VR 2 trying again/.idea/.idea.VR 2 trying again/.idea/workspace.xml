@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a96e6d6b-5426-43e1-a2ea-52c30638e941" name="Changes" comment="" />
+    <list default="true" id="a96e6d6b-5426-43e1-a2ea-52c30638e941" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.VR 2 trying again/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VR 2 trying again/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/CSV/Saved_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/CSV/Saved_data.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Materials/Perma guardian (feedback).mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Perma guardian (feedback).mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/VR 1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/VR 1.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/FadeScreen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/FadeScreen.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SceneTransitionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SceneTransitionManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/guardianFeedback.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/guardianFeedback.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,6 +20,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/715992f7369b40ee952d2501b32a876efe00/88/f6a09028/AudioClip.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/OutOfBounds.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/FadeScreen.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Hand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/HandController.cs" root0="FORCE_HIGHLIGHTING" />
@@ -97,6 +106,7 @@
       <workItem from="1666945895481" duration="1075000" />
       <workItem from="1666955315371" duration="12083000" />
       <workItem from="1667895891756" duration="4403000" />
+      <workItem from="1667995855413" duration="2862000" />
     </task>
     <servers />
   </component>
