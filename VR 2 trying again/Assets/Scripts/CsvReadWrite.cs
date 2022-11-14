@@ -9,11 +9,13 @@ using Unity.VisualScripting;
 public class CsvReadWrite : MonoBehaviour
 {
     private List<string[]> _rowData = new List<string[]>();
+    private Vector3 _guardianRendSize;
 
 
     // Use this for initialization
     void Start()
     {
+        _guardianRendSize = GameObject.Find("/Guardian").GetComponent<Renderer>().bounds.size; // Get the render dimensions of a game object named guardian without any parent.
         First();
         InvokeRepeating("Save", 1.0f, repeatRate:1.0f);
       
@@ -42,8 +44,8 @@ public class CsvReadWrite : MonoBehaviour
         for (int i = 0; i < 1; i++)
         {
             rowDataTemp = new string[1];
-            if (Mathf.Abs(transform.position.x) > 2 |
-                Mathf.Abs(transform.position.z) > 2) // If the player leaves the 4x4m boundary multiply the speed score with -1;
+            if (Mathf.Abs(transform.position.x) > (_guardianRendSize.x / 2) |
+                Mathf.Abs(transform.position.z) > (_guardianRendSize.z / 2)) // If the player leaves the boundary multiply the speed score with -1;
             {
                 w = Mathf.Sqrt(Mathf.Pow((transform.position[0] - oldPos[0]), 2) +
                                Mathf.Pow((transform.position[2] - oldPos[2]), 2)) * -1;
