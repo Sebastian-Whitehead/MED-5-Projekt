@@ -20,6 +20,7 @@ public class guardianFeedback : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        
         Debug.Log(insides);
         if (lerp < 1) {
             lerp += speed / 10;

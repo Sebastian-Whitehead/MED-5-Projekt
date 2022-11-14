@@ -4909,5 +4909,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   staticMaterial: {fileID: 2100000, guid: 681c68327d38c9742bc4f72a625fd10d, type: 2}
-  feedbackMaterial: {fileID: 2100000, guid: 09478d638e0fc5f4ebd85e10fae94d05, type: 2}
+  feedbackMaterial: {fileID: 2100000, guid: d526d92e61151f549b675e0e8f6591a5, type: 2}
   speed: 0.5
