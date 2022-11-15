@@ -3,31 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class guardianFeedback : MonoBehaviour {
-    public Material staticMaterial;
-    public Material feedbackMaterial;
-    public float speed = 0.5f;
+    public Material staticMaterial;     //Standard Material 
+    public Material feedbackMaterial;   //Transition Material
+    public float speed = 0.5f;          //Transition Speed             
 
-    private bool alert = false;
-    private float lerp = 1f;
-    private Renderer rend;
+    private bool alert = false;         //Weather object is outside of play-space
+    private float lerp = 1f;            //Interpolation variable 
+    private Renderer rend;              //The Objects renderer
     
     private int insides = 0;
 
     // Start is called before the first frame update
     void Start() {
-        rend = GetComponent<Renderer>();
+        rend = GetComponent<Renderer>();// Retrieves renderer 
     }
 
     // Update is called once per frame
     void Update() {
         
-        Debug.Log(insides);
+        //Debug.Log(insides);
         if (lerp < 1) {
             lerp += speed / 10;
             if (alert) {
-                rend.material.Lerp(staticMaterial, feedbackMaterial, lerp);
+                rend.material.Lerp(staticMaterial, feedbackMaterial, lerp); // Fade from standard to feedback material  
             } else {
-                rend.material.Lerp(feedbackMaterial, staticMaterial, lerp);
+                rend.material.Lerp(feedbackMaterial, staticMaterial, lerp); // Fade from feedback to standard material
             }
         }
     }
@@ -37,7 +37,7 @@ public class guardianFeedback : MonoBehaviour {
         {
             insides++;
             
-            Debug.Log("Tracking object enter guardian");
+            //Debug.Log("Tracking object enter guardian");
             
             if (insides == 3)
             {
@@ -52,7 +52,7 @@ public class guardianFeedback : MonoBehaviour {
         {
 
             insides--;
-            Debug.Log("Tracking object exiting guardian");
+            //Debug.Log("Tracking object exiting guardian");
 
             if (insides == 2)
             {
