@@ -15,7 +15,7 @@ public class CsvReadWrite : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        _guardianRendSize = GameObject.Find("/Guardian").GetComponent<Renderer>().bounds.size; // Get the render dimensions of a game object named guardian without any parent.
+        _guardianRendSize = GameObject.Find("Guardian").GetComponent<Renderer>().bounds.size; // Get the render dimensions of a game object named guardian without any parent.
         First();
         InvokeRepeating("Save", 1.0f, repeatRate:1.0f);
       
