@@ -43,6 +43,18 @@ Shader "Universal Render Pipeline/Meta guardian" {
                 o.uv = v.uv;
                 o.normal = v.normal;
                 o.vertex = UnityObjectToClipPos(v.vertex);
+                
+                // Rotate uv map in -normal.z
+                if (-o.normal.z > 0.99) {
+                    float rotation = 3.14;
+                    float c = cos(rotation);
+                    float s = sin(rotation);
+                    float2x2 mat = float2x2(c, -s, s, c);
+                    o.uv = o.uv * 2 - 1;
+                    o.uv = mul(mat, o.uv);
+                    o.uv = o.uv * 0.5 + 0.5;
+                }
+
                 return o;
             }
 
