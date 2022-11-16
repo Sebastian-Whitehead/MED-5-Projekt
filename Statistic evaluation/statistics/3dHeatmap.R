@@ -3,12 +3,14 @@
 library(plot3D)
 library(data.table)
 
-matrixSize = 25 # Number of physical "fields" in each dimension
+matrixSize = 9 # Number of physical "fields" in each dimension
+guardianSize = 3
 rowLength = 4 # Amount of columns
-placementPath = "placement3.csv"
+placementPath = "datatest.csv"
 showPermaGuardian = TRUE
 
 placeData <- read.csv(placementPath, header=FALSE) # Read data from file
+# placeData <- t(c(0, 0, 0, 0, 4, 0, 0, 0))
 placeData <- t(placeData) # Transpose data
 
 boxNumbers = list() # Empty list for boxes
@@ -19,9 +21,9 @@ for (i in 1:ncol(placeData)) {
   tmp_participant <- data.table(tmp_participant)
 
   # Calculate box number and append til list
-  halfX = tmp_participant$X + matrixSize / 2
-  halfZ = tmp_participant$Z + matrixSize / 2
-  boxNumber <- round(halfX * matrixSize + halfZ)
+  halfX = round(tmp_participant$X * 2 + matrixSize / 2 - .5) # + 2
+  halfZ = round(tmp_participant$Z * 2 + matrixSize / 2 + .5) # + 2
+  boxNumber <- (halfX * matrixSize + halfZ)
   if (i %% 2 == as.integer(showPermaGuardian)) {
     boxNumbers <- rbind(boxNumbers, boxNumber)
   }
@@ -56,6 +58,11 @@ hist3D(
   main="Placement representation each frame",
   clab=c("Frame count", "(Normalized)"),
   colkey=list(side=4, length=.7, width=.5),
-  theta=135, phi=30, bty="b2",
-  col = c("#0AE4F0", "#0253F2", "#4409DB","#E20CF5", "#EB0A09"),
-  nticks=matrixSize/4, ticktype="detailed", space=0.2, shade=0.9)
+  theta=110, phi=25, bty="b2",
+  col = jet.col(10, alpha=.8),
+  nticks=matrixSize*.5, ticktype="detailed", space=0.2)
+
+box3D(x0=-guardianSize, y0=-guardianSize, z0=0,
+      x1=guardianSize+1, y1=guardianSize+1, z1=1,
+      col="lightblue", alpha=.2,
+      border="lightgrey", lwd=1, add=TRUE)
