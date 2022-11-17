@@ -9,15 +9,15 @@ using Unity.VisualScripting;
 public class CsvReadWrite : MonoBehaviour
 {
     private List<string[]> _rowData = new List<string[]>();
-    private Vector3 _guardianRendSize;
+    private readonly Vector3 _guardianSize = new Vector3(3f, 4f, 3f); // Defined Guardian Size
 
 
     // Use this for initialization
     void Start()
     {
-        _guardianRendSize = GameObject.Find("Guardian").GetComponent<Renderer>().bounds.size; // Get the render dimensions of a game object named guardian without any parent.
+        //guardianRendSize = GameObject.Find("Guardian").GetComponent<Renderer>().bounds.size; // Get the render dimensions of a game object named guardian without any parent.
         First();
-        InvokeRepeating("Save", 1.0f, repeatRate:1.0f);
+        InvokeRepeating(nameof(Save), 1.0f, repeatRate:1.0f);
       
     }
 
@@ -36,27 +36,25 @@ public class CsvReadWrite : MonoBehaviour
 
     void Save()
     {
-        float w;
+        
         // Creating First row of titles manually..
         string[] rowDataTemp = new string[3];
 
         // You can add up the values in as many cells as you want.
         for (int i = 0; i < 1; i++)
         {
-            rowDataTemp = new string[1];
-            if (Mathf.Abs(transform.position.x) > (_guardianRendSize.x / 2) |
-                Mathf.Abs(transform.position.z) > (_guardianRendSize.z / 2)) // If the player leaves the boundary multiply the speed score with -1;
+            rowDataTemp = new string[1]; // Speed Parameter
+            var position = transform.position; // Current Camera Position
+            float w = Mathf.Sqrt(Mathf.Pow((position.x - oldPos.x), 2) +
+                                 Mathf.Pow((position.z - oldPos.z), 2));
+            
+            if (Mathf.Abs(position.x) > (_guardianSize.x / 2) |
+                Mathf.Abs(position.z) > (_guardianSize.z / 2)) // If the player's head leaves the boundary multiply the speed score with -1;
             {
-                w = Mathf.Sqrt(Mathf.Pow((transform.position[0] - oldPos[0]), 2) +
-                               Mathf.Pow((transform.position[2] - oldPos[2]), 2)) * -1;
-            }
-            else
-            {
-                w = Mathf.Sqrt(Mathf.Pow((transform.position[0] - oldPos[0]), 2) +
-                               Mathf.Pow((transform.position[2] - oldPos[2]), 2));
+                w = w * -1;
             }
 
-            rowDataTemp[0] = transform.position.x + "," + transform.position.y + "," + transform.position.z + "," + w;
+            rowDataTemp[0] = position.x + "," + position.y + "," + position.z + "," + w;
         }
 
         oldPos = transform.position;
