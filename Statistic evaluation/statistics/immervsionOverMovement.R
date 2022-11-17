@@ -10,9 +10,9 @@ library(data.table)
 library(data.frame)
 
 # Static variables
-placementPath = "datatest.csv" # CSV-path for location data
+placementPath = "locationAnswers.csv" # CSV-path for location data
 locDataLength = 4 # Amount of columns
-surveyPath = "surveyPilot.csv" # CSV-path for survey data
+surveyPath = "surveyAnswers.csv" # CSV-path for survey data
 surveryQuestions = 8 # Amount of questions in the survey
 guardians = c("Perma", "Meta") # Guardian names
 
@@ -58,7 +58,7 @@ for (i in 1:ncol(placeData)) {
   tmp_guardianId = i %% 2 + 1 # Un-/even participant
   tmp_locationCMean = round(mean(data.table(tmp_participant)$C), 3) # C location mean
   tmp_surveyMean = round(meanSurvey[i], 3) # Survey mean
-  trail = c(tmp_locationCMean, tmp_surveyMean, tmp_guardianId, 16) # Construct package
+  trail = c(tmp_locationCMean, tmp_surveyMean, tmp_guardianId, 5) # Construct package
 
   # Append C-mean and survey mean into a matrix
   IOM <- rbind(IOM, trail) # Append data package
@@ -71,7 +71,7 @@ IOM <- data.frame(IOM) # Convert to data.frame
 for (i in 1:length(guardians)) {
   guardianData = subset(IOM, Guardian==i, select=c(Movement, Immersion))
   guardianMean = colMeans(guardianData)
-  IOM <- rbind(IOM, c(guardianMean, i + length(guardians), 4)) # Append data package
+  IOM <- rbind(IOM, c(guardianMean, i, 2)) # Append data package
 }
 
 # Factor types
@@ -83,7 +83,7 @@ IOM$ShapeType <- as.factor(IOM$ShapeType) # Integer Guardian-value
 plot <- ggplot(
   data=IOM,
   aes(x=Movement, y=Immersion, color=Guardian)) +
-  geom_point(aes(shape=ShapeType, color=Guardian, size=5)) +
+  geom_point(aes(shape=ShapeType, color=Guardian), size=5) +
 
   scale_y_continuous(
     breaks=seq(0, 7, by=1),
@@ -92,13 +92,14 @@ plot <- ggplot(
     breaks=seq(0, 1, by=.1),
     limits=c(0, 1)) +
 
-  scale_color_discrete(labels=c(guardians, "Perma (Mean)", "Meta (Mean)")) +
+  scale_color_discrete(labels=guardians) +
+  scale_shape_discrete(labels=c("Mean", "Data")) +
+
   theme(legend.position="top",
-        legend.text=element_text(
-          size=13),
+        legend.text=element_text(size=13),
         legend.background=element_rect(
-          size=0.5, lineShape="solid",
-          color ="grey"))
+          size=0.5, linetype="solid",
+          color="grey"))
 plot
 
 ggsave(plot, height=10, width=10, filename="IOM.png") # Save graph as PNG
