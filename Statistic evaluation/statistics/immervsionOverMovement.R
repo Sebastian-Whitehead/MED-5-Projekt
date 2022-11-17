@@ -12,8 +12,9 @@ library(data.table)
 
 # Static variables
 placementPath = "datatest.csv" # CSV-path for location data
-rowLength = 4 # Amount of columns
+locDataLength = 4 # Amount of columns
 surveyPath = "surveyPilot.csv" # CSV-path for survey data
+surveryQuestions = 8 # Amount of questions in the survey
 guardians = c("Meta", "Perma") # Guardian names
 
 ########## Get survey data ##########
@@ -22,9 +23,9 @@ surveyData <- read.csv(surveyPath, header=FALSE) # Read data from file
 surveyData <- t(surveyData) # Transpose data
 
 surveyData <- surveyData[c(-1,-2,-3,-12,-13,-22,-23,-24),]
-meanSurvey = strtoi(list()) # Initizlize empty list for mean matrix
+meanSurvey = strtoi(list()) # Initialize empty list for mean matrix
 for (i in 1:ncol(surveyData)) {
-  tmp_participant <- matrix(unlist(surveyData[ , i]), nrow=8) # Cut to matrix
+  tmp_participant <- matrix(unlist(surveyData[ , i]), nrow=surveryQuestions) # Cut to matrix
   meanSurvey <- rbind(meanSurvey, colMeans(tmp_participant))
 }
 
@@ -36,7 +37,7 @@ separatedList = list() # Initialize empty list for separated matrices
 meanLocation = strtoi(list()) # Initizlize empty list for mean matrix
 
 for (i in 1:ncol(placeData)) {
-  tmp_participant <- matrix(unlist(placeData[ , i]), nrow=rowLength) # Cut to matrix
+  tmp_participant <- matrix(unlist(placeData[ , i]), nrow=locDataLength) # Cut to matrix
   rownames(tmp_participant) <- c("X", "Y", "Z", "W") # Column names
   tmp_participant <- t(tmp_participant) # Transpose
   tmp_participant <- data.table(tmp_participant)
