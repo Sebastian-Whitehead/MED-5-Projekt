@@ -4,7 +4,6 @@
 # TODO:
 # - Change label names in legend
 # - Normalize data
-# - Set width and height to 1, 1
 
 # Importing libraries
 library(ggplot2)
@@ -21,12 +20,14 @@ guardians = c("Meta", "Perma") # Guardian names
 
 surveyData <- read.csv(surveyPath, header=FALSE) # Read data from file
 surveyData <- t(surveyData) # Transpose data
+surveyData <- surveyData[c(-1,-2,-3,-12,-13,-22,-23,-24),] # Remove questions from survey
 
-surveyData <- surveyData[c(-1,-2,-3,-12,-13,-22,-23,-24),]
+# Separate survey questions
 meanSurvey = strtoi(list()) # Initialize empty list for mean matrix
 for (i in 1:ncol(surveyData)) {
   tmp_participant <- matrix(unlist(surveyData[ , i]), nrow=surveryQuestions) # Cut to matrix
-  meanSurvey <- rbind(meanSurvey, colMeans(tmp_participant))
+  tmp_surveyMean = colMeans(tmp_participant) # Get mean of survey
+  meanSurvey <- rbind(meanSurvey, tmp_surveyMean) # Append data to list
 }
 
 ########## Get placement data ##########
@@ -34,14 +35,14 @@ placeData <- read.csv(placementPath, header=FALSE) # Read data from file
 placeData <- t(placeData) # Transpose data
 
 separatedList = list() # Initialize empty list for separated matrices
-meanLocation = strtoi(list()) # Initizlize empty list for mean matrix
+immersionOverMovement = strtoi(list()) # Initizlize empty list for mean matrix
 
 for (i in 1:ncol(placeData)) {
   tmp_participant <- matrix(unlist(placeData[ , i]), nrow=locDataLength) # Cut to matrix
   rownames(tmp_participant) <- c("X", "Y", "Z", "W") # Column names
   tmp_participant <- t(tmp_participant) # Transpose
-  tmp_participant <- data.table(tmp_participant)
-  tmp_participant <- na.omit(tmp_participant)
+  tmp_participant <- data.table(tmp_participant) # Convert to data.table
+  tmp_participant <- na.omit(tmp_participant) # Remove NaN data values
 
   # Calculate the C-value for each row
   tmp_participant = transform(
@@ -51,38 +52,43 @@ for (i in 1:ncol(placeData)) {
   # Normalize each C-value depending on participant
   minC = min(tmp_participant$C) # Get minimum value of C
   maxC = max(tmp_participant$C) # Get maximum value of C
-  tmp_participant$C = t((tmp_participant$C - minC) / (maxC - minC))
+  tmp_participant$C = t((tmp_participant$C - minC) / (maxC - minC)) # Normalize
 
   # Pack data for each participant
   tmp_guardianId = i %% 2 + 1 # Un-/even participant
-  tmp_locationCMean = round(mean(data.table(tmp_participant)$C), 3) # C-mean
+  tmp_locationCMean = round(mean(data.table(tmp_participant)$C), 3) # C location mean
   tmp_surveyMean = round(meanSurvey[i], 3) # Survey mean
-  trail = c(tmp_locationCMean, tmp_surveyMean, tmp_guardianId)
+  trail = c(tmp_locationCMean, tmp_surveyMean, tmp_guardianId) # Construct package
 
   # Append C-mean and survey mean into a matrix
-  meanLocation <- rbind(meanLocation, trail)
+  immersionOverMovement <- rbind(immersionOverMovement, trail) # Append data package
   separatedList[[i]] <- data.table(tmp_participant) # Convert to data frame
 }
-colnames(meanLocation) <- c("Movement", "Immersion", "Guardian") # Column names
-meanLocation <- data.frame(meanLocation)
-meanLocation$Guardian <- as.factor(meanLocation$Guardian) # Integar Guardian-value
+colnames(immersionOverMovement) <- c("Movement", "Immersion", "Guardian") # Column names
+immersionOverMovement <- data.frame(immersionOverMovement) # Convert to data.frame
+immersionOverMovement$Guardian <- as.factor(immersionOverMovement$Guardian) # Integer Guardian-value
 
 ########## Show data ##########
 
 plot <- ggplot(
-  data=meanLocation,
+  data=immersionOverMovement,
   aes(x=Movement, y=Immersion, color=Guardian)) +
   geom_point(size=5) +
+  scale_y_continuous(
+    breaks=seq(0, 7, by=1),
+    limits=c(1, 7)) +
+  scale_x_continuous(
+    breaks=seq(0, 1, by=.1),
+    limits=c(0, 1)) +
   theme(legend.position="top",
         legend.text=element_text(
           size=13),
         legend.background=element_rect(
           size=0.5, linetype="solid",
-          color ="grey")) +
-  ylim(0, 7)
+          color ="grey"))
   # labs(title = "#######",
   #      subtitle = "#######",
   #      caption = "#######")
 plot
 
-ggsave(plot, filename="immersionOverMovement.png") # Save graph as PNG
+ggsave(plot, height=10, width=10, filename="immersionOverMovement.png") # Save graph as PNG
