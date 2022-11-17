@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class OutOfBounds : MonoBehaviour
 {
-    public FadeScreen ThefadingScreen;
+    public FadeScreen fadingScreen;
     
     void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("TrackingObject") && other.gameObject.name == "Body")
         {
             Debug.Log("Tracking object enter guardian");
-            ThefadingScreen.Fade(0.991f, 0f, 1f);
+            fadingScreen.Fade(0.999f, 0f, 1f);
         }
     }
 
@@ -19,7 +19,7 @@ public class OutOfBounds : MonoBehaviour
         if (other.gameObject.CompareTag("TrackingObject") && other.gameObject.name == "Body")
         {
             Debug.Log("Tracking object exiting guardian");
-            ThefadingScreen.Fade(0f, 0.991f, 1f);
+            fadingScreen.Fade(0f, 0.999f, 1f);
         }
     }
 }
