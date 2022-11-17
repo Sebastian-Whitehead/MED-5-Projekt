@@ -9,19 +9,24 @@
 # Importing libraries
 library(ggplot2)
 library(data.table)
-source("convertInput.R")
 
 # Static variables
-placementPath = "placement.csv" # CSV-path for location data
+placementPath = "datatest.csv" # CSV-path for location data
 rowLength = 4 # Amount of columns
-surveyPath = "survey.csv" # CSV-path for survey data
+surveyPath = "surveyPilot.csv" # CSV-path for survey data
 guardians = c("Meta", "Perma") # Guardian names
 
 ########## Get survey data ##########
 
 surveyData <- read.csv(surveyPath, header=FALSE) # Read data from file
 surveyData <- t(surveyData) # Transpose data
-surveyMean = colMeans(surveyData) # Mean columns
+
+surveyData <- surveyData[c(-1,-2,-3,-12,-13,-22,-23,-24),]
+meanSurvey = strtoi(list()) # Initizlize empty list for mean matrix
+for (i in 1:ncol(surveyData)) {
+  tmp_participant <- matrix(unlist(surveyData[ , i]), nrow=8) # Cut to matrix
+  meanSurvey <- rbind(meanSurvey, colMeans(tmp_participant))
+}
 
 ########## Get placement data ##########
 placeData <- read.csv(placementPath, header=FALSE) # Read data from file
@@ -35,6 +40,7 @@ for (i in 1:ncol(placeData)) {
   rownames(tmp_participant) <- c("X", "Y", "Z", "W") # Column names
   tmp_participant <- t(tmp_participant) # Transpose
   tmp_participant <- data.table(tmp_participant)
+  tmp_participant <- na.omit(tmp_participant)
 
   # Calculate the C-value for each row
   tmp_participant = transform(
@@ -43,16 +49,17 @@ for (i in 1:ncol(placeData)) {
 
   # Normalize each C-value depending on participant
   minC = min(tmp_participant$C) # Get minimum value of C
-  maxC = max(tmp_participant$C) # Get maxmimum value of C
+  maxC = max(tmp_participant$C) # Get maximum value of C
   tmp_participant$C = t((tmp_participant$C - minC) / (maxC - minC))
 
+  # Pack data for each participant
+  tmp_guardianId = i %% 2 + 1 # Un-/even participant
+  tmp_locationCMean = round(mean(data.table(tmp_participant)$C), 3) # C-mean
+  tmp_surveyMean = round(meanSurvey[i], 3) # Survey mean
+  trail = c(tmp_locationCMean, tmp_surveyMean, tmp_guardianId)
+
   # Append C-mean and survey mean into a matrix
-  meanLocation <- rbind(
-    meanLocation,
-    c(round(mean(data.table(tmp_participant)$C), 10), # C-mean
-      round(surveyMean[i], 2), # Survey mean
-      i %% 2 + 1 # Un-/even participant
-    ))
+  meanLocation <- rbind(meanLocation, trail)
   separatedList[[i]] <- data.table(tmp_participant) # Convert to data frame
 }
 colnames(meanLocation) <- c("Movement", "Immersion", "Guardian") # Column names
