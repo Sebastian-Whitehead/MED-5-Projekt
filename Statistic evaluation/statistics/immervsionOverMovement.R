@@ -2,19 +2,19 @@
 # tmp_participant = subset(tmp_participant, select=-c(w)) # Remove all w-values
 
 # TODO:
-# - Change label names in legend
 # - Normalize data
 
 # Importing libraries
 library(ggplot2)
 library(data.table)
+library(data.frame)
 
 # Static variables
 placementPath = "datatest.csv" # CSV-path for location data
 locDataLength = 4 # Amount of columns
 surveyPath = "surveyPilot.csv" # CSV-path for survey data
 surveryQuestions = 8 # Amount of questions in the survey
-guardians = c("Meta", "Perma") # Guardian names
+guardians = c("Perma", "Meta") # Guardian names
 
 ########## Get survey data ##########
 
@@ -35,7 +35,7 @@ placeData <- read.csv(placementPath, header=FALSE) # Read data from file
 placeData <- t(placeData) # Transpose data
 
 separatedList = list() # Initialize empty list for separated matrices
-immersionOverMovement = strtoi(list()) # Initizlize empty list for mean matrix
+IOM = strtoi(list()) # Initizlize empty list for mean matrix
 
 for (i in 1:ncol(placeData)) {
   tmp_participant <- matrix(unlist(placeData[ , i]), nrow=locDataLength) # Cut to matrix
@@ -58,37 +58,47 @@ for (i in 1:ncol(placeData)) {
   tmp_guardianId = i %% 2 + 1 # Un-/even participant
   tmp_locationCMean = round(mean(data.table(tmp_participant)$C), 3) # C location mean
   tmp_surveyMean = round(meanSurvey[i], 3) # Survey mean
-  trail = c(tmp_locationCMean, tmp_surveyMean, tmp_guardianId) # Construct package
+  trail = c(tmp_locationCMean, tmp_surveyMean, tmp_guardianId, 16) # Construct package
 
   # Append C-mean and survey mean into a matrix
-  immersionOverMovement <- rbind(immersionOverMovement, trail) # Append data package
+  IOM <- rbind(IOM, trail) # Append data package
   separatedList[[i]] <- data.table(tmp_participant) # Convert to data frame
 }
-colnames(immersionOverMovement) <- c("Movement", "Immersion", "Guardian") # Column names
-immersionOverMovement <- data.frame(immersionOverMovement) # Convert to data.frame
-immersionOverMovement$Guardian <- as.factor(immersionOverMovement$Guardian) # Integer Guardian-value
+colnames(IOM) <- c("Movement", "Immersion", "Guardian", "ShapeType") # Column names
+IOM <- data.frame(IOM) # Convert to data.frame
+
+# Get mean of each guardian Shape
+for (i in 1:length(guardians)) {
+  guardianData = subset(IOM, Guardian==i, select=c(Movement, Immersion))
+  guardianMean = colMeans(guardianData)
+  IOM <- rbind(IOM, c(guardianMean, i + length(guardians), 4)) # Append data package
+}
+
+# Factor types
+IOM$Guardian <- as.factor(IOM$Guardian) # Integer Guardian-value
+IOM$ShapeType <- as.factor(IOM$ShapeType) # Integer Guardian-value
 
 ########## Show data ##########
 
 plot <- ggplot(
-  data=immersionOverMovement,
+  data=IOM,
   aes(x=Movement, y=Immersion, color=Guardian)) +
-  geom_point(size=5) +
+  geom_point(aes(shape=ShapeType, color=Guardian, size=5)) +
+
   scale_y_continuous(
     breaks=seq(0, 7, by=1),
     limits=c(1, 7)) +
   scale_x_continuous(
     breaks=seq(0, 1, by=.1),
     limits=c(0, 1)) +
+
+  scale_color_discrete(labels=c(guardians, "Perma (Mean)", "Meta (Mean)")) +
   theme(legend.position="top",
         legend.text=element_text(
           size=13),
         legend.background=element_rect(
-          size=0.5, linetype="solid",
+          size=0.5, lineShape="solid",
           color ="grey"))
-  # labs(title = "#######",
-  #      subtitle = "#######",
-  #      caption = "#######")
 plot
 
-ggsave(plot, height=10, width=10, filename="immersionOverMovement.png") # Save graph as PNG
+ggsave(plot, height=10, width=10, filename="IOM.png") # Save graph as PNG
