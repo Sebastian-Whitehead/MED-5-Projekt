@@ -2,7 +2,6 @@
 # tmp_participant = subset(tmp_participant, select=-c(w)) # Remove all w-values
 
 # TODO:
-# - Normalize data
 
 # Importing libraries
 library(ggplot2)
@@ -58,13 +57,13 @@ for (i in 1:ncol(placeData)) {
   tmp_guardianId = i %% 2 + 1 # Un-/even participant
   tmp_locationCMean = round(mean(data.table(tmp_participant)$C), 3) # C location mean
   tmp_surveyMean = round(meanSurvey[i], 3) # Survey mean
-  trail = c(tmp_locationCMean, tmp_surveyMean, tmp_guardianId, 5) # Construct package
+  trail = c(tmp_locationCMean, tmp_surveyMean, tmp_guardianId, 1) # Construct package
 
   # Append C-mean and survey mean into a matrix
   IOM <- rbind(IOM, trail) # Append data package
   separatedList[[i]] <- data.table(tmp_participant) # Convert to data frame
 }
-colnames(IOM) <- c("Movement", "Immersion", "Guardian", "ShapeType") # Column names
+colnames(IOM) <- c("Movement", "Immersion", "Guardian", "Type") # Column names
 IOM <- data.frame(IOM) # Convert to data.frame
 
 # Get mean of each guardian Shape
@@ -76,14 +75,22 @@ for (i in 1:length(guardians)) {
 
 # Factor types
 IOM$Guardian <- as.factor(IOM$Guardian) # Integer Guardian-value
-IOM$ShapeType <- as.factor(IOM$ShapeType) # Integer Guardian-value
+IOM$Type <- as.factor(IOM$Type) # Integer Guardian-value
 
 ########## Show data ##########
 
+# http://www.sthda.com/english/wiki/ggplot2-point-shapes
+
 plot <- ggplot(
-  data=IOM,
-  aes(x=Movement, y=Immersion, color=Guardian)) +
-  geom_point(aes(shape=ShapeType, color=Guardian), size=5) +
+  data=IOM, aes(x=Movement, y=Immersion)) +
+
+  geom_point(aes(shape=Type, color=Guardian), size=5) +
+  scale_color_manual(
+    values=c('#D0312D','#1AA7EC'),
+    labels=guardians) +
+  scale_shape_manual(
+    values=c(16, 4),
+    labels=c("Data", "Mean")) +
 
   scale_y_continuous(
     breaks=seq(0, 7, by=1),
@@ -92,11 +99,8 @@ plot <- ggplot(
     breaks=seq(0, 1, by=.1),
     limits=c(0, 1)) +
 
-  scale_color_discrete(labels=guardians) +
-  scale_shape_discrete(labels=c("Mean", "Data")) +
-
   theme(legend.position="top",
-        legend.text=element_text(size=13),
+        legend.text=element_text(size=12),
         legend.background=element_rect(
           size=0.5, linetype="solid",
           color="grey"))
