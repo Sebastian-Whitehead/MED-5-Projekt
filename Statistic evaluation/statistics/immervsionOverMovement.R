@@ -1,3 +1,7 @@
+# http://www.sthda.com/english/wiki/ggplot2-point-shapes
+# https://stackoverflow.com/questions/58380045/plotting-lines-between-two-points-in-ggplot2
+# https://www.geeksforgeeks.org/how-to-convert-csv-into-array-in-r/
+
 # TODO:
 
 # Importing libraries
@@ -6,7 +10,6 @@ library(data.table)
 library(data.frame)
 
 # Static variables
-# https://www.geeksforgeeks.org/how-to-convert-csv-into-array-in-r/
 placementPath <- "locationAnswers.csv" # CSV-path for location data
 locDataLength <- 4 # Amount of columns
 surveyPath <- "surveyAnswers.csv" # CSV-path for survey data
@@ -14,7 +17,6 @@ surveryQuestions <- 8 # Amount of questions in the survey
 guardians <- c("Perma", "Meta") # Guardian names
 
 ########## Get survey data ##########
-
 surveyData <- read.csv(surveyPath, header = FALSE) # Read data from file
 surveyData <- t(surveyData) # Transpose data
 guardianOrder <- surveyData[c(1,12),] # Get activated guardian
@@ -33,9 +35,8 @@ for (i in 1:ncol(surveyData)) {
 placeData <- read.csv(placementPath, header = FALSE) # Read data from file
 placeData <- t(placeData) # Transpose data
 
-separatedList <- list() # Initialize empty list for separated matrices
+# List each trial
 IOM <- strtoi(list()) # Initialize empty list for mean matrix
-
 for (i in 1:ncol(placeData)) {
   tmp_participant <- matrix(unlist(placeData[ , i]), nrow = locDataLength) # Cut to matrix
   rownames(tmp_participant) <- c("X", "Y", "Z", "W") # Column names
@@ -56,32 +57,25 @@ for (i in 1:ncol(placeData)) {
   # Pack data for each participant
   tmp_participantId <- floor((i + 1) / 2)
   tmp_guardianId <- guardianOrder[i] # Un-/even participant
-  tmp_locationCMean <- round(mean(data.table(tmp_participant)$C), 3) # C location mean
+  tmp_locationCMean <- round(mean(data.table(tmp_participant)$C), 3) # Calculate "C" location mean
   tmp_surveyMean <- round(meanSurvey[i], 3) # Survey mean
   tmp_vrExperience <- vrExperience[tmp_participantId] # VR experience
 
   trail <- c(tmp_participantId, tmp_locationCMean, tmp_surveyMean, tmp_guardianId) # Construct package
-
-  # Append C-mean and survey mean into a matrix
   IOM <- rbind(IOM, trail) # Append data package
-  separatedList[[i]] <- data.table(tmp_participant) # Convert to data frame
 }
 colnames(IOM) <- c("Participant", "Movement", "Immersion", "Guardian") # Column names
 IOM <- data.frame(IOM) # Convert to data.frame
-IOM$Guardian <- as.factor(IOM$Guardian) # Integer Guardian-value
 
 # Unlist each participant
-IOM2 <- strtoi(list()) # Make list for updated IOM
+participantData <- strtoi(list()) # Make list for updated IOM
 for (i in seq(1, ncol(IOM)/2)) {
   tmp_participant_data <- subset(IOM, Participant == i, select = c(Movement, Immersion, Guardian)) # Select data sets from each participant
   tmp_participant_data <- unlist(tmp_participant_data) # Unlist participant data
-  IOM2 <- rbind(IOM2, c(tmp_participant_data, vrExperience[i])) # Append data package
+  participantData <- rbind(participantData, c(tmp_participant_data, vrExperience[i])) # Append data package
 }
-colnames(IOM2) <- c(colnames(IOM2)[-7], "Experience") # Add "Experience" to colname
-IOM2 <- data.frame(IOM2) # Convert to data.frame
-IOM2$Guardian1 <- as.factor(IOM2$Guardian1) # Integer Guardian-value
-IOM2$Guardian2 <- as.factor(IOM2$Guardian2) # Integer Guardian-value
-IOM2$Experience <- as.factor(IOM2$Experience) # Integer Experience-value
+colnames(participantData) <- c(colnames(participantData)[-7], "Experience") # Add "Experience" to colname
+participantData <- data.frame(participantData) # Convert to data.frame
 
 # Get mean of each guardian Shape
 guardianMeans  =  strtoi(list())
@@ -91,24 +85,22 @@ for (i in 1:length(guardians)) {
   guardianMeans <- rbind(guardianMeans, c(guardianMean, i)) # Append data package
 }
 guardianMeans <- data.frame(guardianMeans) # Convert to data.frame
-colnames(guardianMeans) <- c("Movement", "Immersion", "Guardian") # Add "Guardian" to colnames
-rownames(guardianMeans) <- guardians # Update guardian names as rows
-guardianMeans$Guardian <- as.factor(guardianMeans$Guardian) # Integer Guardian-value
+colnames(guardianMeans) <- c(colnames(guardianMeans)[-3], "Guardian") # Update "Guardian" in colnames
 
 ########## Show data ##########
-
-# http://www.sthda.com/english/wiki/ggplot2-point-shapes
-# https://stackoverflow.com/questions/58380045/plotting-lines-between-two-points-in-ggplot2
-
 plot <- ggplot() +
 
-  geom_curve(data = IOM2, aes(x = Movement1, y = Immersion1, xend = Movement2, yend = Immersion2),
+  geom_curve(data = participantData,
+             aes(x = Movement1, y = Immersion1, xend = Movement2, yend = Immersion2),
              size = .5, color = "grey", curvature = -.2) +
-  geom_point(data = IOM2, aes(x = Movement1, y = Immersion1, fill = Guardian1, shape = Experience), size = 5, pch = 21) +
-  geom_point(data = IOM2, aes(x = Movement2, y = Immersion2, color = Guardian2), size = 5, pch = 16) +
-  geom_point(data = guardianMeans, aes(x = Movement, y = Immersion, color = Guardian), size = 5, pch = 4) +
 
-  scale_fill_manual(values = c('#D0312D','#1AA7EC'), guide = "none") +
+  geom_point(data = participantData, aes(x = Movement1, y = Immersion1, fill = factor(Guardian1), shape = factor(Experience)), size = 5, pch = 21) +
+  geom_point(data = participantData, aes(x = Movement2, y = Immersion2, color = factor(Guardian2)), size = 5, pch = 16) +
+  geom_point(data = guardianMeans, aes(x = Movement, y = Immersion, color = factor(Guardian)), size = 5, pch = 4) +
+
+  scale_fill_manual(
+    values = c('#D0312D','#1AA7EC'),
+    guide = "none") +
   scale_color_manual(
     name = "Guardian",
     values = c('#D0312D','#1AA7EC'),
