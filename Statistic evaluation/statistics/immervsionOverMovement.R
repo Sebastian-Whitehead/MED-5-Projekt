@@ -1,5 +1,3 @@
-
-
 # TODO:
 
 # Importing libraries
@@ -19,8 +17,8 @@ guardians <- c("Perma", "Meta") # Guardian names
 
 surveyData <- read.csv(surveyPath, header = FALSE) # Read data from file
 surveyData <- t(surveyData) # Transpose data
-guardianOrder <- surveyData[c(1,12),]
-vrExperience <- surveyData[3,]
+guardianOrder <- surveyData[c(1,12),] # Get activated guardian
+vrExperience <- surveyData[3,] # Get VR experience
 surveyData <- surveyData[-c(1, 2, 3, 12, 13, 22, 23, 24),] # Remove questions from survey
 
 # Separate survey questions
@@ -73,13 +71,13 @@ IOM <- data.frame(IOM) # Convert to data.frame
 IOM$Guardian <- as.factor(IOM$Guardian) # Integer Guardian-value
 
 # Unlist each participant
-IOM2 <- strtoi(list())
+IOM2 <- strtoi(list()) # Make list for updated IOM
 for (i in seq(1, ncol(IOM)/2)) {
-  tmp_participant_data <- subset(IOM, Participant == i, select = c(Movement, Immersion, Guardian))
-  tmp_participant_data <- unlist(tmp_participant_data)
+  tmp_participant_data <- subset(IOM, Participant == i, select = c(Movement, Immersion, Guardian)) # Select data sets from each participant
+  tmp_participant_data <- unlist(tmp_participant_data) # Unlist participant data
   IOM2 <- rbind(IOM2, c(tmp_participant_data, vrExperience[i])) # Append data package
 }
-colnames(IOM2) <- c(colnames(IOM2)[-7], "Experience")
+colnames(IOM2) <- c(colnames(IOM2)[-7], "Experience") # Add "Experience" to colname
 IOM2 <- data.frame(IOM2) # Convert to data.frame
 IOM2$Guardian1 <- as.factor(IOM2$Guardian1) # Integer Guardian-value
 IOM2$Guardian2 <- as.factor(IOM2$Guardian2) # Integer Guardian-value
@@ -88,13 +86,13 @@ IOM2$Experience <- as.factor(IOM2$Experience) # Integer Experience-value
 # Get mean of each guardian Shape
 guardianMeans  =  strtoi(list())
 for (i in 1:length(guardians)) {
-  guardianData <- subset(IOM, Guardian == i, select = c(Movement, Immersion))
-  guardianMean <- colMeans(guardianData)
+  guardianData <- subset(IOM, Guardian == i, select = c(Movement, Immersion)) # Get data set from each guardian
+  guardianMean <- colMeans(guardianData) # Get mean of each column
   guardianMeans <- rbind(guardianMeans, c(guardianMean, i)) # Append data package
 }
 guardianMeans <- data.frame(guardianMeans) # Convert to data.frame
-colnames(guardianMeans) <- c("Movement", "Immersion", "Guardian")
-rownames(guardianMeans) <- guardians # Column names
+colnames(guardianMeans) <- c("Movement", "Immersion", "Guardian") # Add "Guardian" to colnames
+rownames(guardianMeans) <- guardians # Update guardian names as rows
 guardianMeans$Guardian <- as.factor(guardianMeans$Guardian) # Integer Guardian-value
 
 ########## Show data ##########
