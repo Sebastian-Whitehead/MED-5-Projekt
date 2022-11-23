@@ -69,7 +69,7 @@ IOM <- data.frame(IOM) # Convert to data.frame
 
 # Unlist each participant
 participantData <- strtoi(list()) # Make list for updated IOM
-for (i in seq(1, ncol(IOM)/2)) {
+for (i in seq(1, nrow(IOM)/2)) {
   tmp_participant_data <- subset(IOM, Participant == i, select = c(Movement, Immersion, Guardian)) # Select data sets from each participant
   tmp_participant_data <- unlist(tmp_participant_data) # Unlist participant data
   participantData <- rbind(participantData, c(tmp_participant_data, vrExperience[i])) # Append data package
@@ -90,13 +90,21 @@ colnames(guardianMeans) <- c(colnames(guardianMeans)[-3], "Guardian") # Update "
 ########## Show data ##########
 plot <- ggplot() +
 
-  geom_curve(data = participantData,
-             aes(x = Movement1, y = Immersion1, xend = Movement2, yend = Immersion2),
-             size = .5, color = "grey", curvature = -.2) +
-
-  geom_point(data = participantData, aes(x = Movement1, y = Immersion1, fill = factor(Guardian1), shape = factor(Experience)), size = 5, pch = 21) +
-  geom_point(data = participantData, aes(x = Movement2, y = Immersion2, color = factor(Guardian2)), size = 5, pch = 16) +
-  geom_point(data = guardianMeans, aes(x = Movement, y = Immersion, color = factor(Guardian)), size = 5, pch = 4) +
+  geom_segment(data = participantData,
+               aes(x = Movement1, y = Immersion1, xend = Movement2, yend = Immersion2),
+               size = .5, color = "grey") +
+  # geom_curve(data = participantData,
+  #            aes(x = Movement1, y = Immersion1, xend = Movement2, yend = Immersion2),
+  #            size = .5, color = "grey", curvature = .5) +
+  geom_point(data = participantData,
+             aes(x = Movement1, y = Immersion1, fill = factor(Guardian1)),
+             size = 5, pch = 21) +
+  geom_point(data = participantData,
+             aes(x = Movement2, y = Immersion2, color = factor(Guardian2)),
+             size = 5, pch = 16) +
+  geom_point(data = guardianMeans,
+             aes(x = Movement, y = Immersion, color = factor(Guardian)),
+             size = 5, pch = 4) +
 
   scale_fill_manual(
     values = c('#D0312D','#1AA7EC'),
@@ -109,15 +117,14 @@ plot <- ggplot() +
     values = c(15, 16, 17, 18),
     labels = c("0", "1-5", "5-15", "15+")) +
 
-  scale_y_continuous(
-    breaks = seq(0, 7, by = 1),
-    limits = c(1, 7)) +
+  xlab("Movement") +
+  ylab("Immersion") +
   scale_x_continuous(
     breaks = seq(0, 1, by = .1),
     limits = c(0, 1)) +
-
-  xlab("Movement") +
-  ylab("Immersion") +
+  scale_y_continuous(
+    breaks = seq(0, 7, by = 1),
+    limits = c(1, 7)) +
 
   theme(
     legend.position = c(.95, .95),
@@ -130,7 +137,6 @@ plot <- ggplot() +
     legend.background = element_rect(
       size = 0.5, linetype = "solid",
       color = "grey"))
-
 plot
 
 ggsave(plot, height = 10, width = 10, filename = "IOM.png") # Save graph as PNG
