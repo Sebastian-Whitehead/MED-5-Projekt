@@ -101,9 +101,9 @@ plot <- ggplot() +
 
   # Make points and mean
   geom_point(data = IOM,
-           aes(x = Movement, y = Immersion,
-               color = factor(Guardian), fill = factor(Guardian),
-               shape = factor(Data)), size = 5) +
+             aes(x = Movement, y = Immersion,
+                 color = factor(Guardian), fill = factor(Guardian),
+                 shape = factor(Data)), size = 5, stroke = 1.5) +
 
   # Make first trail of each participant points
   geom_point(data = participantData,
