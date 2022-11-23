@@ -5105,6 +5105,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Guardian: {fileID: 1781502702}
+  primaryButton: {fileID: -5451027560249119053, guid: c348712bda248c246b8c49b3db54643f,
+    type: 3}
 --- !u!1001 &1912731143
 PrefabInstance:
   m_ObjectHideFlags: 0
