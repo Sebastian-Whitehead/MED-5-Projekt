@@ -10,7 +10,7 @@ library(data.table)
 library(data.frame)
 
 # Static variables
-placementPath <- "locationAnswers.csv" # CSV-path for location data
+placementPath <- "oneLineLocations.csv" # CSV-path for location data
 locDataLength <- 4 # Amount of columns
 surveyPath <- "surveyAnswers.csv" # CSV-path for survey data
 surveryQuestions <- 8 # Amount of questions in the survey
@@ -61,8 +61,9 @@ for (i in 1:ncol(placeData)) {
   tmp_locationCMean <- round(mean(data.table(tmp_participant)$C), 3) # Calculate "C" location mean
   tmp_surveyMean <- round(meanSurvey[i], 3) # Survey mean
   tmp_vrExperience <- vrExperience[tmp_participantId] # VR experience
+  tmp_firstTrial <- i %% 2 # Trail is first of participant
 
-  trail <- c(tmp_participantId, tmp_locationCMean, tmp_surveyMean, tmp_guardianId, i %% 2) # Construct package
+  trail <- c(tmp_participantId, tmp_locationCMean, tmp_surveyMean, tmp_guardianId, tmp_firstTrial) # Construct package
   IOM <- rbind(IOM, trail) # Append data package
 }
 colnames(IOM) <- c("Participant", "Movement", "Immersion", "Guardian", "Data") # Column names
@@ -93,17 +94,23 @@ colnames(guardianMeans) <- c(colnames(guardianMeans)[-3], "Guardian") # Update "
 ########## Show data ##########
 plot <- ggplot() +
 
+  # Make lines between participant points
   geom_segment(data = participantData,
                aes(x = Movement1, y = Immersion1, xend = Movement2, yend = Immersion2),
                size = .5, color = "grey", show.legend = TRUE) +
+
+  # Make points and mean
   geom_point(data = IOM,
            aes(x = Movement, y = Immersion,
                color = factor(Guardian), fill = factor(Guardian),
                shape = factor(Data)), size = 5) +
+
+  # Make first trail of each participant points
   geom_point(data = participantData,
              aes(x = Movement1, y = Immersion1),
              size = 5, pch = 21) +
 
+  # Update visuals and legend of properties
   scale_fill_manual(
     values = colors,
     guide = "none") +
@@ -119,6 +126,7 @@ plot <- ggplot() +
     name = "Participant",
     values = c("Connection" = 1)) +
 
+  # Update x- and y-axis properties
   xlab("Movement") +
   ylab("Immersion") +
   scale_x_continuous(
@@ -128,6 +136,7 @@ plot <- ggplot() +
     breaks = seq(0, 7, by = 1),
     limits = c(1, 7)) +
 
+  # Update legend properties
   theme(
     legend.position = c(.95, .95),
     legend.justification = c("right", "top"),
