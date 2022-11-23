@@ -1,8 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR;
-
+using UnityEngine.InputSystem;
 public class ChangeHeightIntensity : MonoBehaviour
 {
 
@@ -11,43 +11,24 @@ public class ChangeHeightIntensity : MonoBehaviour
     private float ValLowerLerpL = -0.463f; 
     private float ValUpperLerpS = 0.01f;
     private float ValLowerLerpS = 0f;
-    private float maxval = 0.2f;
     public GameObject Guardian;
-    public Hand hand;
-
-    private InputDevice targetDevice;
+    private InputAction rightHandPrimaryButton;
     
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private InputActionReference primaryButton;
+    private void Start()
     {
-
-        // rend = GetComponent<Renderer> ();
-        // rend.material.shader = Shader.Find("Fixed_Solo-pass");
-         List<InputDevice> devices = new List<InputDevice>();
-         InputDevices.GetDevices(devices);
-
-    //     foreach(var item in devices){
-    //       Debug.Log(item.name + item.characteristics);
-    //     }
-
-    //      InputDeviceCharacteristics rightControllerCharacteristics = InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
-    //      InputDevices.GetDeviceWithCharacteristics(rightControllerCharacteristics, devices);
-
-      if (devices.Count > 0){
-        targetDevice = devices [0];
-      }
+      
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update(){
 
-         targetDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonValue);
-        if(primaryButtonValue == true){
-            Debug.Log("Works");
-        }
+      if (Input.GetKeyDown("primaryButton"))
+      {
+        Debug.Log("Pls");
+      }
 
-        if(Input.GetKeyDown("up")){
+      if(Input.GetKeyDown("up")){
         Guardian.GetComponent<Renderer>().sharedMaterial.SetFloat("_UpperLerpL", ValUpperLerpL);
         Guardian.GetComponent<Renderer>().sharedMaterial.SetFloat("_LowerLerpL", ValLowerLerpL);
         Guardian.GetComponent<Renderer>().sharedMaterial.SetFloat("_UpperLerpS", ValUpperLerpS);
@@ -87,9 +68,9 @@ public class ChangeHeightIntensity : MonoBehaviour
           ValLowerLerpS -= 0.01f;
         } 
       }
-
-    
       
     }
 
+  
+  
 }
