@@ -15,6 +15,7 @@ locDataLength <- 4 # Amount of columns
 surveyPath <- "surveyAnswers.csv" # CSV-path for survey data
 surveryQuestions <- 8 # Amount of questions in the survey
 guardians <- c("Perma", "Meta") # Guardian names
+colors <- c('#D0312D', '#1AA7EC')
 
 ########## Get survey data ##########
 surveyData <- read.csv(surveyPath, header = FALSE) # Read data from file
@@ -61,10 +62,10 @@ for (i in 1:ncol(placeData)) {
   tmp_surveyMean <- round(meanSurvey[i], 3) # Survey mean
   tmp_vrExperience <- vrExperience[tmp_participantId] # VR experience
 
-  trail <- c(tmp_participantId, tmp_locationCMean, tmp_surveyMean, tmp_guardianId) # Construct package
+  trail <- c(tmp_participantId, tmp_locationCMean, tmp_surveyMean, tmp_guardianId, i %% 2) # Construct package
   IOM <- rbind(IOM, trail) # Append data package
 }
-colnames(IOM) <- c("Participant", "Movement", "Immersion", "Guardian") # Column names
+colnames(IOM) <- c("Participant", "Movement", "Immersion", "Guardian", "Data") # Column names
 IOM <- data.frame(IOM) # Convert to data.frame
 
 # Unlist each participant
@@ -82,7 +83,9 @@ guardianMeans  =  strtoi(list())
 for (i in 1:length(guardians)) {
   guardianData <- subset(IOM, Guardian == i, select = c(Movement, Immersion)) # Get data set from each guardian
   guardianMean <- colMeans(guardianData) # Get mean of each column
-  guardianMeans <- rbind(guardianMeans, c(guardianMean, i)) # Append data package
+  guardianPackage <- c(0, guardianMean, i, 2)
+  guardianMeans <- rbind(guardianMeans, guardianPackage) # Append data package
+  IOM <- rbind(IOM, guardianPackage) # Append data package
 }
 guardianMeans <- data.frame(guardianMeans) # Convert to data.frame
 colnames(guardianMeans) <- c(colnames(guardianMeans)[-3], "Guardian") # Update "Guardian" in colnames
@@ -92,30 +95,29 @@ plot <- ggplot() +
 
   geom_segment(data = participantData,
                aes(x = Movement1, y = Immersion1, xend = Movement2, yend = Immersion2),
-               size = .5, color = "grey") +
-  # geom_curve(data = participantData,
-  #            aes(x = Movement1, y = Immersion1, xend = Movement2, yend = Immersion2),
-  #            size = .5, color = "grey", curvature = .5) +
+               size = .5, color = "grey", show.legend = TRUE) +
+  geom_point(data = IOM,
+           aes(x = Movement, y = Immersion,
+               color = factor(Guardian), fill = factor(Guardian),
+               shape = factor(Data)), size = 5) +
   geom_point(data = participantData,
-             aes(x = Movement1, y = Immersion1, fill = factor(Guardian1)),
+             aes(x = Movement1, y = Immersion1),
              size = 5, pch = 21) +
-  geom_point(data = participantData,
-             aes(x = Movement2, y = Immersion2, color = factor(Guardian2)),
-             size = 5, pch = 16) +
-  geom_point(data = guardianMeans,
-             aes(x = Movement, y = Immersion, color = factor(Guardian)),
-             size = 5, pch = 4) +
 
   scale_fill_manual(
-    values = c('#D0312D','#1AA7EC'),
+    values = colors,
     guide = "none") +
   scale_color_manual(
-    name = "Guardian",
-    values = c('#D0312D','#1AA7EC'),
+    name = "Guardian type",
+    values = colors,
     labels = guardians) +
   scale_shape_manual(
-    values = c(15, 16, 17, 18),
-    labels = c("0", "1-5", "5-15", "15+")) +
+    name = "Data type",
+    values = c(16, 21, 4),
+    labels = c("Trail", "First", "Mean")) +
+  scale_linetype_manual(
+    name = "Participant",
+    values = c("Connection" = 1)) +
 
   xlab("Movement") +
   ylab("Immersion") +
@@ -132,7 +134,7 @@ plot <- ggplot() +
     legend.box.just = "right",
     legend.margin = margin(6, 6, 6, 6),
 
-    legend.title  =  element_text(face = "bold"),
+    legend.title = element_text(face = "bold"),
     legend.text = element_text(size = 10),
     legend.background = element_rect(
       size = 0.5, linetype = "solid",
