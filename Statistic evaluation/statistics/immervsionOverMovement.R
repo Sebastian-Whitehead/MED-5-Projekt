@@ -15,7 +15,8 @@ locDataLength <- 4 # Amount of columns
 surveyPath <- "surveyAnswers.csv" # CSV-path for survey data
 surveryQuestions <- 8 # Amount of questions in the survey
 guardians <- c("Perma", "Meta") # Guardian names
-colors <- c('#D0312D', '#1AA7EC')
+colors <- c('#D0312D', '#1AA7EC') # Colors used in plot for guardian
+invertSurvey <- c(0, 0, 1, 1, 1, 0, 0, 0) # Survey inversion list to make invert score rating
 
 ########## Get survey data ##########
 surveyData <- read.csv(surveyPath, header = FALSE) # Read data from file
@@ -27,8 +28,9 @@ surveyData <- surveyData[-c(1, 2, 3, 12, 13, 22, 23, 24),] # Remove questions fr
 # Separate survey questions
 meanSurvey <- strtoi(list()) # Initialize empty list for mean matrix
 for (i in 1:ncol(surveyData)) {
-  tmp_participant <- matrix(unlist(surveyData[ , i]), nrow = surveryQuestions) # Cut to matrix
-  tmp_surveyMean <- colMeans(tmp_participant) # Get mean of survey
+  tmp_participant_survey <- matrix(unlist(surveyData[ , i]), nrow = surveryQuestions) # Cut to matrix
+  tmp_inverted_survey <- abs(tmp_participant_survey - replicate(2, matrix(invertSurvey)[,1]) * 7) # Invert survey
+  tmp_surveyMean <- colMeans(tmp_inverted_survey) # Get mean of survey
   meanSurvey <- rbind(meanSurvey, tmp_surveyMean) # Append data to list
 }
 
@@ -103,12 +105,12 @@ plot <- ggplot() +
   geom_point(data = IOM,
              aes(x = Movement, y = Immersion,
                  color = factor(Guardian), fill = factor(Guardian),
-                 shape = factor(Data)), size = 5, stroke = 1.5) +
+                 shape = factor(Data)), size = 2, stroke = 1.5) +
 
   # Make first trail of each participant points
   geom_point(data = participantData,
              aes(x = Movement1, y = Immersion1),
-             size = 5, pch = 21) +
+             size = 2, pch = 21) +
 
   # Update visuals and legend of properties
   scale_fill_manual(

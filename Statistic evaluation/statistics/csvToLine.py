@@ -4,6 +4,16 @@ collecter = []
 holder = []
 with open('Saved_data.csv', newline='') as csvfile:
     spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+
+    # Convert "0,0,0" data points
+    for i, row in enumerate(spamreader):
+        row = ' '.join(row)
+        if "0,0,0" in row:
+            print(row)
+            print()
+
+    if True: exit()
+
     for row in spamreader:
         row = ' '.join(row)
         if row == "New Participant,,":
