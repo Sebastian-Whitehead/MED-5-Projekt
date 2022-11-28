@@ -7,7 +7,7 @@ matrixSize = 9 # Number of physical "fields" in each dimension
 guardianSize = 3
 rowLength = 4 # Amount of columns
 placementPath = "oneLineLocations.csv"
-showPermaGuardian = TRUE
+showPermaGuardian = FALSE
 
 placeData <- read.csv(placementPath, header=FALSE) # Read data from file
 # placeData <- t(c(0, 0, 0, 0, 4, 0, 0, 0))

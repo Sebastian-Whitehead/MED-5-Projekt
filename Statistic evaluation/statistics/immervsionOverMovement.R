@@ -8,6 +8,7 @@
 library(ggplot2)
 library(data.table)
 library(data.frame)
+library(plyr)
 
 # Static variables
 placementPath <- "oneLineLocations.csv" # CSV-path for location data
@@ -36,8 +37,8 @@ for (i in 1:ncol(surveyData)) {
 }
 
 ########## Get placement data ##########
-fileIn=file(placementPath, open="rb", encoding="UTF-8") # Read data from file
-lines = readLines(fileIn, n = 1000, warn = TRUE) # Read each line into a list
+fileIn <- file(placementPath, open="rb", encoding="UTF-8") # Read data from file
+lines <- readLines(fileIn, n = 1000, warn = TRUE) # Read each line into a list
 
 # List each trial
 IOM <- strtoi(list()) # Initialize empty list for mean matrix
@@ -45,10 +46,10 @@ for (i in 1:length(lines)) {
 
   line <- gsub(" ", "", lines[i], fixed = TRUE) # Remove whitespace
   line <- strsplit(line, ",") # Split string at ","/comma
-  tmp_participant <- data.table(t(matrix(unlist(line), nrow = 4)))
+  tmp_participant <- data.table(t(matrix(unlist(line), nrow = locDataLength)))
   colnames(tmp_participant) <- c("X", "Y", "Z", "W") # Column names
-  tmp_participant <- na.omit(tmp_participant) # Remove NaN data values
   tmp_participant <- mapply(tmp_participant, FUN=as.numeric) # Make matrix numeric
+  tmp_participant <- na.omit(tmp_participant) # Remove NaN data values
   tmp_participant <- data.table(tmp_participant) # Remake data.table matrix
 
   # Calculate the C-value for each row
@@ -59,7 +60,8 @@ for (i in 1:length(lines)) {
   # Normalize each C-value depending on participant
   minC <- min(tmp_participant$C) # Get minimum value of C
   maxC <- max(tmp_participant$C) # Get maximum value of C
-  tmp_participant$C <- t((tmp_participant$C - minC) / (maxC - minC)) # Normalize
+  # tmp_participant$C <- t((tmp_participant$C - minC) / (maxC - minC)) # Normalize
+  # tmp_participant$C <- mapvalues(tmp_participant$C, from = c(-1, 1), to = c(0, 1))
 
   # Pack data for each participant
   tmp_participantId <- floor((i + 1) / 2)
@@ -89,13 +91,14 @@ colnames(participantData) <- c(
   "Guaridan1", "Guardian2", "Experience")
 
 # Get mean of each guardian Shape
-guardianMeans  =  strtoi(list())
+guardianMeans <- strtoi(list())
 for (i in 1:length(guardians)) {
   guardianData <- subset(IOM, Guardian == i, select = c(Movement, Immersion)) # Get data set from each guardian
 
   guardianData <- mapply(guardianData, FUN=as.numeric)
   guardianMean <- colMeans(guardianData) # Get mean of each column
   guardianPackage <- c(0, guardianMean, i, 2)
+
   guardianMeans <- rbind(guardianMeans, guardianPackage) # Append data package
   IOM <- rbind(IOM, guardianPackage) # Append data package
 }
@@ -126,12 +129,16 @@ plot <- ggplot() +
              aes(x = Movement, y = Immersion, color=factor(Guardian)),
              size = 5, pch = 4, alpha = 1, stroke = 2) +
 
+  # Make zero line
+  geom_vline(xintercept = 0, linetype = "dashed", color = "black", alpha = .4) +
+  geom_hline(yintercept = 4, linetype = "dashed", color = "black", alpha = .4) +
+
   # Update visuals and legend of properties
   scale_fill_manual(
     values = colors,
     guide = "none") +
   scale_color_manual(
-    name = "Guardian type",
+    name = "Guardian",
     values = colors,
     labels = guardians) +
   scale_shape_manual(
@@ -146,10 +153,10 @@ plot <- ggplot() +
   xlab("Movement") +
   ylab("Immersion") +
   scale_x_continuous(
-    breaks = seq(0, 1, by = .1),
-    limits = c(0, 1)) +
+    breaks = seq(-.5, .7, by = .1),
+    limits = c(-.5, .7)) +
   scale_y_continuous(
-    breaks = seq(0, 7, by = 1),
+    breaks = seq(1, 7, by = 1),
     limits = c(1, 7)) +
 
   # Update legend properties
@@ -166,7 +173,73 @@ plot <- ggplot() +
       color = "grey"))
 plot
 
-ggsave(plot, height = 10, width = 10, filename = "IOM.png") # Save graph as PNG
+ggsave(plot, filename = "IOM.png") # Save graph as PNG
+
+############################################
+
+boxData <- strtoi(list())
+for (i in 1:length(guardians)) {
+  guardianData <- subset(IOM, Guardian == i, select = c(Movement, Immersion))
+  bp <- boxplot(guardianData)
+  data <- c(bp$stats[,1], bp$stats[,2])
+  boxData <- rbind(boxData, c(data, i))
+}
+df <- data.frame(boxData)
+colnames(df) <- c("x.min", "x.lower", "x.middle", "x.upper", "x.max", "y.min", "y.lower", "y.middle", "y.upper", "y.max", "Guardian")
+
+# https://stackoverflow.com/questions/46068074/double-box-plots-in-ggplot2
+box <- ggplot(data=df) +
+
+  scale_x_continuous(limits = c(-.5, .7)) +
+  scale_y_continuous(limits = c(1, 7)) +
+
+  xlab("Movement") + ylab("Immersion") +
+
+  # 2D box defined by the Q1 & Q3 values in each dimension, with outline
+  geom_rect(aes(
+    xmin = x.lower, xmax = x.upper,
+    ymin = y.lower, ymax = y.upper,
+    fill = factor(Guardian)), color = "black", alpha = .5) +
+
+  # whiskers for x-axis dimension with ends
+  geom_segment(aes(x = x.min, y = y.middle, xend = x.max, yend = y.middle, color = factor(Guardian))) + #whiskers
+  geom_segment(aes(x = x.min, y = y.lower, xend = x.min, yend = y.upper, color = factor(Guardian))) + #lower end
+  geom_segment(aes(x = x.max, y = y.lower, xend = x.max, yend = y.upper, color = factor(Guardian))) + #upper end
+
+  # whiskers for y-axis dimension with ends
+  geom_segment(aes(x = x.middle, y = y.min, xend = x.middle, yend = y.max, color = factor(Guardian))) + #whiskers
+  geom_segment(aes(x = x.lower, y = y.min, xend = x.upper, yend = y.min, color = factor(Guardian))) + #lower end
+  geom_segment(aes(x = x.lower, y = y.max, xend = x.upper, yend = y.max, color = factor(Guardian))) + #upper end
+
+  # outliers
+  # geom_point(data = df.outliers, aes(x = x.outliers, y = y.middle), size = 3, shape = 1) + # x-direction
+  # geom_point(data = df.outliers, aes(x = x.middle, y = y.outliers), size = 3, shape = 1) + # y-direction
+
+
+  # Update visuals and legend of properties
+  scale_fill_manual(
+    name = "Guardian",
+    values = colors,
+    labels = guardians) +
+  scale_color_manual(
+    guide = "none",
+    values = colors) +
+
+  theme(
+    legend.position = c(.95, .95),
+    legend.justification = c("right", "top"),
+    legend.box.just = "right",
+    legend.margin = margin(6, 6, 6, 6),
+
+    legend.title = element_text(face = "bold"),
+    legend.text = element_text(size = 10),
+    legend.background = element_rect(
+      size = 0.5, linetype = "solid",
+      color = "grey"))
+box
+plot
+
+ggsave(box, filename = "IOM_boxplot.png") # Save graph as PNG
 
 IOM
 participantData

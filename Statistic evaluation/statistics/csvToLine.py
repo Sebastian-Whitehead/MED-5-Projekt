@@ -2,12 +2,12 @@ import csv
 
 collecter = []
 holder = []
-with open('data.csv', newline='') as csvfile:
+with open('data_-_Copy_NormalisedOnly.csv', newline='') as csvfile:
     spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
 
     for row in spamreader:
         row = ' '.join(row)
-        if row == "New Participant,,":
+        if row == "New Participant,,,":
             if len(holder) > 0:
                 collecter.append(holder)
             holder = []
