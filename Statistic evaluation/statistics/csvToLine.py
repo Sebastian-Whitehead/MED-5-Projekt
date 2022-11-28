@@ -2,7 +2,7 @@ import csv
 
 collecter = []
 holder = []
-with open('Saved_data.csv', newline='') as csvfile:
+with open('data.csv', newline='') as csvfile:
     spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
 
     for row in spamreader:
@@ -17,4 +17,4 @@ with open('Saved_data.csv', newline='') as csvfile:
     with open('oneLineLocations.csv', 'w') as f:
         writer = csv.writer(f, delimiter=',', escapechar=' ', quoting=csv.QUOTE_NONE)
         writer.writerows(collecter)
-        print("Done")
+        print("Done", len(collecter))
