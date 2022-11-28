@@ -8,7 +8,6 @@
 library(ggplot2)
 library(data.table)
 library(data.frame)
-library(plyr)
 
 # Static variables
 placementPath <- "oneLineLocations.csv" # CSV-path for location data
@@ -235,9 +234,36 @@ box <- ggplot(data=df) +
     legend.text = element_text(size = 10),
     legend.background = element_rect(
       size = 0.5, linetype = "solid",
-      color = "grey"))
-box
-plot
+      color = "grey")) +
+
+  # Make zero line
+  geom_vline(xintercept = 0, linetype = "dashed", color = "black", alpha = .4) +
+  geom_hline(yintercept = 4, linetype = "dashed", color = "black", alpha = .4)
+
+# box
+# plot
+
+ggplot() + geom_point(data = participantData,
+             aes(x = Movement1, y = Immersion1, color = factor(Experience)),
+             size = 3, alpha = .7)
+
+ggplot() + geom_point(data = participantData,
+             aes(x = Movement2, y = Immersion2, color = factor(Experience)),
+             size = 3, alpha = .7)
+
+ggplot(participantData, aes(x = Movement1, y = Immersion1, color = factor(Experience))) +
+  geom_point() + geom_smooth() + geom_boxplot()
+
+
+ggplot(participantData, aes(x = Movement2, y = Immersion2, color = factor(Experience))) +
+  geom_point() + geom_smooth()
+
+
+ggplot(participantData, aes(x = Movement1, y = factor(Experience))) +
+  geom_boxplot() + scale_x_continuous(limits = c(-.5, .5))
+ggplot(participantData, aes(x = Movement2, y = factor(Experience))) +
+  geom_boxplot() + scale_x_continuous(limits = c(-.5, .5))
+
 
 ggsave(box, filename = "IOM_boxplot.png") # Save graph as PNG
 
