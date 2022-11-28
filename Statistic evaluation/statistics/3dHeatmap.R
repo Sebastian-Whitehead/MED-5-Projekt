@@ -6,7 +6,7 @@ library(data.table)
 matrixSize = 9 # Number of physical "fields" in each dimension
 guardianSize = 3
 rowLength = 4 # Amount of columns
-placementPath = "datatest.csv"
+placementPath = "oneLineLocations.csv"
 showPermaGuardian = TRUE
 
 placeData <- read.csv(placementPath, header=FALSE) # Read data from file
