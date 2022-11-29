@@ -22,7 +22,7 @@ public class ChangeHeightIntensity : MonoBehaviour
 
     private void Start()
     {
-     
+     Debug.Log("UpperLerpL, LowerLerpL, UpperLerpS, LowerLerpS, ValTransL, ValTransS");
     }
 
     // Update is called once per frame
@@ -48,7 +48,7 @@ public class ChangeHeightIntensity : MonoBehaviour
         Guardian.GetComponent<Renderer>().sharedMaterial.SetFloat("_TransS", ValTransS);
         float yvalue = leftstick.y;
         //Modifies the Transparency Values for TransL
-        ValTransL += yvalue/10;
+        ValTransL += yvalue/50;
         if (ValTransL >= 1f){
           ValTransL = 1f;
         }
@@ -57,7 +57,7 @@ public class ChangeHeightIntensity : MonoBehaviour
         }
 
         //Modifies the transparency values for TransS
-        ValTransS += yvalue/10;
+        ValTransS += yvalue/50;
         if (ValTransS >= 1f){
           ValTransS = 1f;
         }
@@ -88,39 +88,37 @@ public class ChangeHeightIntensity : MonoBehaviour
           Guardian.GetComponent<Renderer>().sharedMaterial.SetFloat("_LowerLerpS", ValLowerLerpS);
           float yvalue = rightstick.y;
         
-          ValUpperLerpL += yvalue/10;
+          ValUpperLerpL += yvalue/60;
           if (ValUpperLerpL >= 2){
-            ValUpperLerpL= 2f;
+            ValUpperLerpL= 1.99f;
           }
-          if (ValUpperLerpL <= 0.01f){
+          if (ValUpperLerpL <= 0.015f){
             ValUpperLerpL = 0.015f;
           }
 
-          ValLowerLerpL += yvalue/10;
-          if (ValUpperLerpL >= 1){
-            ValUpperLerpL= 1f;
+          ValLowerLerpL += yvalue/60;
+          if (ValLowerLerpL >= 1){
+            ValLowerLerpL= 0.99f;
           }
-          if (ValLowerLerpL <= 0f){
-            ValUpperLerpL = 0.01f;
+          if (ValLowerLerpL <= -1f){
+            ValLowerLerpL = -0.99f;
           }
 
-          ValUpperLerpS += yvalue/10;
+          ValUpperLerpS += yvalue/80;
           if (ValUpperLerpS >= 2){
-            ValUpperLerpS= 2f;
+            ValUpperLerpS= 1.99f;
           }
           if (ValUpperLerpS <= 0.01f){
             ValUpperLerpS = 0.01f;
           }
 
-          ValLowerLerpS += yvalue/10;
-          if (ValUpperLerpS >= 1){
-            ValUpperLerpS= 1f;
+          ValLowerLerpS += yvalue/80;
+          if (ValLowerLerpS >= 1){
+            ValLowerLerpS= 0.99f;
           }
-          if (ValLowerLerpS <=0f){
-            ValUpperLerpS = 0.01f;
+          if (ValLowerLerpS <=-2f){
+            ValLowerLerpS = -1.99f;
           }
-
-       
        
        
        }
@@ -135,6 +133,10 @@ public class ChangeHeightIntensity : MonoBehaviour
       }
       }
       
+    }
+
+    private void OnApplicationQuit() {
+      Debug.Log(ValUpperLerpL + "," + ValLowerLerpL + ',' + ValUpperLerpS + "," + ValLowerLerpS + ',' + ValTransL + ',' + ValTransS);
     }
 
 }

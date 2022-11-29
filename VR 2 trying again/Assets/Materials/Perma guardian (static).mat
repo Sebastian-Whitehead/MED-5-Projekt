@@ -105,8 +105,8 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _LowerLerpL: -0.03
-    - _LowerLerpS: -1.74
+    - _LowerLerpL: -0.463
+    - _LowerLerpS: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -119,9 +119,9 @@ Material:
     - _Surface: 0
     - _TransL: 0.258
     - _TransOOS: 0.176
-    - _TransS: 0.288
-    - _UpperLerpL: 0.34
-    - _UpperLerpS: 0.59
+    - _TransS: 0.213
+    - _UpperLerpL: 0.09
+    - _UpperLerpS: 0.01
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
