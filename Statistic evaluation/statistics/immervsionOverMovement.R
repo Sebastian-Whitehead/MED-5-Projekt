@@ -10,7 +10,7 @@ library(data.table)
 library(data.frame)
 
 # Static variables
-placementPath <- "oneLineLocations_normalized.csv" # CSV-path for location data
+placementPath <- "oneLineLocations_non-normalized.csv" # CSV-path for location data
 locDataLength <- 4 # Amount of columns
 surveyPath <- "surveyAnswers_sorted_inverted.csv" # CSV-path for survey data
 surveryQuestions <- 8 # Amount of questions in the survey
@@ -56,7 +56,7 @@ for (i in 1:length(lines)) {
     tmp_participant, # Chose participant
     C = (sqrt(X*X + Z*Z) * W)) # Calculate C-value
 
-  # tmp_participant$C = abs(tmp_participant$W)
+  tmp_participant$C = abs(tmp_participant$W)
 
   # positiveW = data.table(subset(tmp_participant, W > 0, select = W))
   # positiveW <- mapply(positiveW, FUN=as.numeric) # Make matrix numeric
@@ -264,21 +264,21 @@ box
 # plot
 
 # Plot relative speed #
-# df <- data.frame(participantData$Delta)
-# df$Experience <- participantData$Experience
-# colnames(df) <- c("Delta", "Experience")
-# box = ggplot(df, aes(x = factor(Experience), y = Delta)) +
-#   geom_boxplot() +
-#   xlab("Virtual Reality Experience [sessions]") + ylab("Relative Speed [μP/μM]") +
-#   ggtitle("Relative average guardian speed by virtual reality experience") +
-#   scale_x_discrete(labels=c("1-5", "5-14", "15+"))
-#
-# box = ggplot(df, aes(x = "", y = Delta)) +
-#   geom_boxplot() +
-#   xlab("") + ylab("Relative Speed [μP/μM]") +
-#   ggtitle("Relative average guardian speed over all") +
-#   scale_x_discrete(labels=c(""))
-#
+df <- data.frame(participantData$Delta)
+df$Experience <- participantData$Experience
+colnames(df) <- c("Delta", "Experience")
+box = ggplot(df, aes(x = Delta, y = factor(Experience))) +
+  geom_boxplot() +
+  ylab("Virtual Reality Experience [sessions]") + xlab("Relative Speed [μP/μM]") +
+  ggtitle("Relative average guardian speed by virtual reality experience") +
+  scale_y_discrete(labels=c("1-5", "5-14", "15+"))
+
+box = ggplot(df, aes(x = Delta, y = "")) +
+  geom_boxplot() + geom_point() +
+  ylab("") + xlab("Relative Speed [μP/μM]") +
+  ggtitle("Relative average guardian speed over all") +
+  scale_y_discrete(labels=c(""))
+box
 ggsave(box, filename = "images/IOM_boxplot.png") # Save graph as PNG
 
 IOM
