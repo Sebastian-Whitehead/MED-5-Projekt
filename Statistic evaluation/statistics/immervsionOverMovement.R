@@ -10,7 +10,7 @@ library(data.table)
 library(data.frame)
 
 # Static variables
-placementPath <- "oneLineLocations.csv" # CSV-path for location data
+placementPath <- "oneLineLocations_normalized.csv" # CSV-path for location data
 locDataLength <- 4 # Amount of columns
 surveyPath <- "surveyAnswers_sorted_inverted.csv" # CSV-path for survey data
 surveryQuestions <- 8 # Amount of questions in the survey
@@ -51,10 +51,15 @@ for (i in 1:length(lines)) {
   tmp_participant <- na.omit(tmp_participant) # Remove NaN data values
   tmp_participant <- data.table(tmp_participant) # Remake data.table matrix
 
-  # Calculate the C-value for each row
+  # # Calculate the C-value for each row
   tmp_participant <- transform(
     tmp_participant, # Chose participant
     C = (sqrt(X*X + Z*Z) * W)) # Calculate C-value
+
+  # tmp_participant$C = abs(tmp_participant$W)
+
+  # positiveW = data.table(subset(tmp_participant, W > 0, select = W))
+  # positiveW <- mapply(positiveW, FUN=as.numeric) # Make matrix numeric
 
   # Normalize each C-value depending on participant
   minC <- min(tmp_participant$C) # Get minimum value of C
@@ -65,7 +70,8 @@ for (i in 1:length(lines)) {
   # Pack data for each participant
   tmp_participantId <- floor((i + 1) / 2)
   tmp_guardianId <- guardianOrder[i] # Un-/even participant
-  tmp_locationCMean <- round(mean(data.table(tmp_participant)$C), 3) # Calculate "C" location mean
+  tmp_locationCMean <- round(mean(tmp_participant$C), 3) # Calculate "C" location mean
+  # tmp_locationCMean <- round(mean(positiveW), 3) # Calculate "C" location mean
   tmp_surveyMean <- round(meanSurvey[i], 3) # Survey mean
   tmp_vrExperience <- vrExperience[tmp_participantId] # VR experience
   tmp_firstTrial <- i %% 2 # Trail is first of participant
@@ -81,13 +87,23 @@ participantData <- strtoi(list()) # Make list for updated IOM
 for (i in seq(1, nrow(IOM)/2)) {
   tmp_participant_data <- subset(IOM, Participant == i, select = c(Movement, Immersion, Guardian)) # Select data sets from each participant
   tmp_participant_data <- unlist(tmp_participant_data) # Unlist participant data
-  participantData <- rbind(participantData, c(tmp_participant_data, vrExperience[i])) # Append data package
+
+  if (tmp_participant_data["Guardian1"] == 1 && tmp_participant_data["Guardian2"] == 2) {
+    Delta = tmp_participant_data["Movement1"] / tmp_participant_data["Movement2"]
+  } else if (tmp_participant_data["Guardian1"] == 2 && tmp_participant_data["Guardian2"] == 1){
+    Delta = tmp_participant_data["Movement2"] / tmp_participant_data["Movement1"]
+  } else {
+    print("ERROR")
+  }
+
+  participantData <- rbind(participantData, c(tmp_participant_data, vrExperience[i], Delta)) # Append data package
 }
 participantData <- data.frame(participantData) # Convert to data.frame
 colnames(participantData) <- c(
   "Movement1", "Movement2",
   "Immersion1", "Immersion2",
-  "Guaridan1", "Guardian2", "Experience")
+  "Guaridan1", "Guardian2",
+  "Experience", "Delta")
 
 # Get mean of each guardian Shape
 guardianMeans <- strtoi(list())
@@ -149,8 +165,7 @@ plot <- ggplot() +
     values = c("Connection" = 1)) +
 
   # Update x- and y-axis properties
-  xlab("Movement") +
-  ylab("Immersion") +
+  xlab("Confidence [μ(|x,y| * w])") + ylab("Immersion [μ]") +
   scale_x_continuous(
     breaks = seq(-.5, .7, by = .1),
     limits = c(-.5, .7)) +
@@ -169,7 +184,10 @@ plot <- ggplot() +
     legend.text = element_text(size = 10),
     legend.background = element_rect(
       size = 0.5, linetype = "solid",
-      color = "grey"))
+      color = "grey")) +
+
+  ggtitle("Confidence over immersion points")
+
 plot
 
 ggsave(plot, filename = "IOM.png") # Save graph as PNG
@@ -192,7 +210,7 @@ box <- ggplot(data=df) +
   scale_x_continuous(limits = c(-.5, .7)) +
   scale_y_continuous(limits = c(1, 7)) +
 
-  xlab("Movement") + ylab("Immersion") +
+  xlab("Confidence [μ(|x,y| * w])") + ylab("Immersion [μ]") +
 
   # 2D box defined by the Q1 & Q3 values in each dimension, with outline
   geom_rect(aes(
@@ -238,34 +256,30 @@ box <- ggplot(data=df) +
 
   # Make zero line
   geom_vline(xintercept = 0, linetype = "dashed", color = "black", alpha = .4) +
-  geom_hline(yintercept = 4, linetype = "dashed", color = "black", alpha = .4)
+  geom_hline(yintercept = 4, linetype = "dashed", color = "black", alpha = .4) +
 
-# box
+  ggtitle("Confidence over immersion boxplot")
+
+box
 # plot
 
-ggplot() + geom_point(data = participantData,
-             aes(x = Movement1, y = Immersion1, color = factor(Experience)),
-             size = 3, alpha = .7)
-
-ggplot() + geom_point(data = participantData,
-             aes(x = Movement2, y = Immersion2, color = factor(Experience)),
-             size = 3, alpha = .7)
-
-ggplot(participantData, aes(x = Movement1, y = Immersion1, color = factor(Experience))) +
-  geom_point() + geom_smooth() + geom_boxplot()
-
-
-ggplot(participantData, aes(x = Movement2, y = Immersion2, color = factor(Experience))) +
-  geom_point() + geom_smooth()
-
-
-ggplot(participantData, aes(x = Movement1, y = factor(Experience))) +
-  geom_boxplot() + scale_x_continuous(limits = c(-.5, .5))
-ggplot(participantData, aes(x = Movement2, y = factor(Experience))) +
-  geom_boxplot() + scale_x_continuous(limits = c(-.5, .5))
-
-
-ggsave(box, filename = "IOM_boxplot.png") # Save graph as PNG
+# Plot relative speed #
+# df <- data.frame(participantData$Delta)
+# df$Experience <- participantData$Experience
+# colnames(df) <- c("Delta", "Experience")
+# box = ggplot(df, aes(x = factor(Experience), y = Delta)) +
+#   geom_boxplot() +
+#   xlab("Virtual Reality Experience [sessions]") + ylab("Relative Speed [μP/μM]") +
+#   ggtitle("Relative average guardian speed by virtual reality experience") +
+#   scale_x_discrete(labels=c("1-5", "5-14", "15+"))
+#
+# box = ggplot(df, aes(x = "", y = Delta)) +
+#   geom_boxplot() +
+#   xlab("") + ylab("Relative Speed [μP/μM]") +
+#   ggtitle("Relative average guardian speed over all") +
+#   scale_x_discrete(labels=c(""))
+#
+ggsave(box, filename = "images/IOM_boxplot.png") # Save graph as PNG
 
 IOM
 participantData
