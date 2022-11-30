@@ -17,7 +17,20 @@ surveryQuestions <- 8 # Amount of questions in the survey
 guardians <- c("Perma", "Meta") # Guardian names
 colors <- c('#D0312D', '#1AA7EC') # Colors used in plot for guardian
 invertSurvey <- c(0, 0, 1, 1, 1, 0, 0, 0) # Survey inversion list to make invert score rating
-dataFrameNames <- c("Participant", "Movement", "Immersion", "Guardian", "Data")
+dataFrameNames <- c("Participant", "Movement", "Immersion", "Time", "Guardian", "Data")
+
+surveyData <- read.csv(surveyPath, header = FALSE) # Read data from file
+surveyData <- t(surveyData)
+surveyData <- surveyData[c(22, 23, 24),] # Remove questions from survey
+surveyData <- t(surveyData)
+colnames(surveyData) <- c("Usefull", "Helpfull", "Comfortable")
+surveyData <- melt(data.table(surveyData))
+
+box = ggplot(surveyData, aes(x = value, y = variable, color = variable)) +
+  geom_boxplot() +
+  scale_color_manual(guide = "none", values = c(2,4,6)) +
+  ylab("") + xlab("Perma                                                                                                                                            Meta") +
+  ggtitle("Perma v. Meta user experience")
 
 ########## Get survey data ##########
 surveyData <- read.csv(surveyPath, header = FALSE) # Read data from file
@@ -75,8 +88,9 @@ for (i in 1:length(lines)) {
   tmp_surveyMean <- round(meanSurvey[i], 3) # Survey mean
   tmp_vrExperience <- vrExperience[tmp_participantId] # VR experience
   tmp_firstTrial <- i %% 2 # Trail is first of participant
+  tmp_time <- length(tmp_participant$C)
 
-  trail <- c(tmp_participantId, tmp_locationCMean, tmp_surveyMean, tmp_guardianId, tmp_firstTrial) # Construct package
+  trail <- c(tmp_participantId, tmp_locationCMean, tmp_surveyMean, tmp_time, tmp_guardianId, tmp_firstTrial) # Construct package
   IOM <- rbind(IOM, trail) # Append data package
 }
 colnames(IOM) <- dataFrameNames # Column names
@@ -107,8 +121,9 @@ colnames(participantData) <- c(
 
 # Get mean of each guardian Shape
 guardianMeans <- strtoi(list())
+guardiansData <- strtoi(list())
 for (i in 1:length(guardians)) {
-  guardianData <- subset(IOM, Guardian == i, select = c(Movement, Immersion)) # Get data set from each guardian
+  guardianData <- subset(IOM, Guardian == i, select = c(Movement, Immersion, Time)) # Get data set from each guardian
 
   guardianData <- mapply(guardianData, FUN=as.numeric)
   guardianMean <- colMeans(guardianData) # Get mean of each column
@@ -118,6 +133,7 @@ for (i in 1:length(guardians)) {
   IOM <- rbind(IOM, guardianPackage) # Append data package
 }
 guardianMeans <- data.frame(guardianMeans) # Convert to data.frame
+guardiansData <- data.frame(guardiansData) # Convert to data.frame
 colnames(guardianMeans) <- dataFrameNames
 
 ########## Show data ##########
@@ -196,8 +212,8 @@ ggsave(plot, filename = "IOM.png") # Save graph as PNG
 
 boxData <- strtoi(list())
 for (i in 1:length(guardians)) {
-  guardianData <- subset(IOM, Guardian == i, select = c(Movement, Immersion))
-  bp <- boxplot(guardianData)
+  guardianBoxData <- subset(IOM, Guardian == i, select = c(Movement, Immersion))
+  bp <- boxplot(guardianBoxData)
   data <- c(bp$stats[,1], bp$stats[,2])
   boxData <- rbind(boxData, c(data, i))
 }
@@ -267,6 +283,7 @@ box
 df <- data.frame(participantData$Delta)
 df$Experience <- participantData$Experience
 colnames(df) <- c("Delta", "Experience")
+
 box = ggplot(df, aes(x = Delta, y = factor(Experience))) +
   geom_boxplot() +
   ylab("Virtual Reality Experience [sessions]") + xlab("Relative Speed [μP/μM]") +
@@ -274,10 +291,17 @@ box = ggplot(df, aes(x = Delta, y = factor(Experience))) +
   scale_y_discrete(labels=c("1-5", "5-14", "15+"))
 
 box = ggplot(df, aes(x = Delta, y = "")) +
-  geom_boxplot() + geom_point() +
+  geom_boxplot() +
   ylab("") + xlab("Relative Speed [μP/μM]") +
   ggtitle("Relative average guardian speed over all") +
   scale_y_discrete(labels=c(""))
+
+box = ggplot(IOM, aes(x = Time, y = factor(Guardian))) +
+  geom_boxplot() +
+  ylab("Guardian") + xlab("Time [s]") +
+  ggtitle("Time taken completing task") +
+  scale_y_discrete(labels=c("Perma", "Meta"))
+
 box
 ggsave(box, filename = "images/IOM_boxplot.png") # Save graph as PNG
 
