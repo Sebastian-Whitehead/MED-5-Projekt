@@ -10,7 +10,7 @@ library(data.table)
 library(data.frame)
 
 # Static variables
-placementPath <- "oneLineLocations_non-normalized.csv" # CSV-path for location data
+placementPath <- "oneLineLocations_normalized.csv" # CSV-path for location data
 locDataLength <- 4 # Amount of columns
 surveyPath <- "surveyAnswers_sorted_inverted.csv" # CSV-path for survey data
 surveryQuestions <- 8 # Amount of questions in the survey
@@ -26,11 +26,11 @@ surveyData <- t(surveyData)
 colnames(surveyData) <- c("Usefull", "Helpfull", "Comfortable")
 surveyData <- melt(data.table(surveyData))
 
-box = ggplot(surveyData, aes(x = value, y = variable, color = variable)) +
-  geom_boxplot() +
-  scale_color_manual(guide = "none", values = c(2,4,6)) +
-  ylab("") + xlab("Perma                                                                                                                                            Meta") +
-  ggtitle("Perma v. Meta user experience")
+# box = ggplot(surveyData, aes(x = value, y = variable, color = variable)) +
+#   geom_boxplot() +
+#   scale_color_manual(guide = "none", values = c(2,4,6)) +
+#   ylab("") + xlab("Perma                                                                                                                                            Meta") +
+#   ggtitle("Perma v. Meta user experience")
 
 ########## Get survey data ##########
 surveyData <- read.csv(surveyPath, header = FALSE) # Read data from file
@@ -67,18 +67,17 @@ for (i in 1:length(lines)) {
   # # Calculate the C-value for each row
   tmp_participant <- transform(
     tmp_participant, # Chose participant
-    C = (sqrt(X*X + Z*Z) * W)) # Calculate C-value
+    C = (sqrt(X*X + Z*Z) + W * 3.417)) # Calculate C-value
 
-  tmp_participant$C = abs(tmp_participant$W)
+  # tmp_participant$C = abs(tmp_participant$W)
 
   # positiveW = data.table(subset(tmp_participant, W > 0, select = W))
   # positiveW <- mapply(positiveW, FUN=as.numeric) # Make matrix numeric
 
   # Normalize each C-value depending on participant
-  minC <- min(tmp_participant$C) # Get minimum value of C
-  maxC <- max(tmp_participant$C) # Get maximum value of C
+  # minC <- min(tmp_participant$C) # Get minimum value of C
+  # maxC <- max(tmp_participant$C) # Get maximum value of C
   # tmp_participant$C <- t((tmp_participant$C - minC) / (maxC - minC)) # Normalize
-  # tmp_participant$C <- mapvalues(tmp_participant$C, from = c(-1, 1), to = c(0, 1))
 
   # Pack data for each participant
   tmp_participantId <- floor((i + 1) / 2)
@@ -137,76 +136,72 @@ guardiansData <- data.frame(guardiansData) # Convert to data.frame
 colnames(guardianMeans) <- dataFrameNames
 
 ########## Show data ##########
-plot <- ggplot() +
-
-  # Make lines between participant points
-  geom_segment(data = participantData,
-               aes(x = Movement1, y = Immersion1, xend = Movement2, yend = Immersion2),
-               size = .5, color = "grey", show.legend = TRUE) +
-
-  # Make points and mean
-  geom_point(data = IOM,
-             aes(x = Movement, y = Immersion,
-                 color = factor(Guardian), fill = factor(Guardian),
-                 shape = factor(Data)), size = 2, stroke = 1.5, alpha = .7) +
-
-  # Make first trail of each participant points
-  geom_point(data = participantData,
-             aes(x = Movement1, y = Immersion1),
-             size = 2, pch = 21, alpha = .7) +
-
-  # Make first trail of each participant points
-  geom_point(data = guardianMeans,
-             aes(x = Movement, y = Immersion, color=factor(Guardian)),
-             size = 5, pch = 4, alpha = 1, stroke = 2) +
-
-  # Make zero line
-  geom_vline(xintercept = 0, linetype = "dashed", color = "black", alpha = .4) +
-  geom_hline(yintercept = 4, linetype = "dashed", color = "black", alpha = .4) +
-
-  # Update visuals and legend of properties
-  scale_fill_manual(
-    values = colors,
-    guide = "none") +
-  scale_color_manual(
-    name = "Guardian",
-    values = colors,
-    labels = guardians) +
-  scale_shape_manual(
-    name = "Data type",
-    values = c(16, 21, 4),
-    labels = c("Trail", "First", "Mean")) +
-  scale_linetype_manual(
-    name = "Participant",
-    values = c("Connection" = 1)) +
-
-  # Update x- and y-axis properties
-  xlab("Confidence [μ(|x,y| * w])") + ylab("Immersion [μ]") +
-  scale_x_continuous(
-    breaks = seq(-.5, .7, by = .1),
-    limits = c(-.5, .7)) +
-  scale_y_continuous(
-    breaks = seq(1, 7, by = 1),
-    limits = c(1, 7)) +
-
-  # Update legend properties
-  theme(
-    legend.position = c(.95, .95),
-    legend.justification = c("right", "top"),
-    legend.box.just = "right",
-    legend.margin = margin(6, 6, 6, 6),
-
-    legend.title = element_text(face = "bold"),
-    legend.text = element_text(size = 10),
-    legend.background = element_rect(
-      size = 0.5, linetype = "solid",
-      color = "grey")) +
-
-  ggtitle("Confidence over immersion points")
-
-plot
-
-ggsave(plot, filename = "IOM.png") # Save graph as PNG
+# plot <- ggplot() +
+#
+#   # Make lines between participant points
+#   geom_segment(data = participantData,
+#                aes(x = Movement1, y = Immersion1, xend = Movement2, yend = Immersion2),
+#                size = .5, color = "grey", show.legend = TRUE) +
+#
+#   # Make points and mean
+#   geom_point(data = IOM,
+#              aes(x = Movement, y = Immersion,
+#                  color = factor(Guardian), fill = factor(Guardian),
+#                  shape = factor(Data)), size = 2, stroke = 1.5, alpha = .7) +
+#
+#   # Make first trail of each participant points
+#   geom_point(data = participantData,
+#              aes(x = Movement1, y = Immersion1),
+#              size = 2, pch = 21, alpha = .7) +
+#
+#   # Make first trail of each participant points
+#   geom_point(data = guardianMeans,
+#              aes(x = Movement, y = Immersion, color=factor(Guardian)),
+#              size = 5, pch = 4, alpha = 1, stroke = 2) +
+#
+#   # Make zero line
+#   geom_vline(xintercept = 0, linetype = "dashed", color = "black", alpha = .4) +
+#   geom_hline(yintercept = 4, linetype = "dashed", color = "black", alpha = .4) +
+#
+#   # Update visuals and legend of properties
+#   scale_fill_manual(
+#     values = colors,
+#     guide = "none") +
+#   scale_color_manual(
+#     name = "Guardian",
+#     values = colors,
+#     labels = guardians) +
+#   scale_shape_manual(
+#     name = "Data type",
+#     values = c(16, 21, 4),
+#     labels = c("Trail", "First", "Mean")) +
+#   scale_linetype_manual(
+#     name = "Participant",
+#     values = c("Connection" = 1)) +
+#
+#   # Update x- and y-axis properties
+#   xlab("Confidence [μ(|x,y| + w * 3.417])") + ylab("Immersion [μ]") +
+#   scale_x_continuous(
+#     breaks = seq(-.1, 3, by = .1),
+#     limits = c(-.1, 3)) +
+#   scale_y_continuous(
+#     breaks = seq(1, 7, by = 1),
+#     limits = c(1, 7)) +
+#
+#   # Update legend properties
+#   theme(
+#     legend.position = c(.95, .95),
+#     legend.justification = c("right", "top"),
+#     legend.box.just = "right",
+#     legend.margin = margin(6, 6, 6, 6),
+#
+#     legend.title = element_text(face = "bold"),
+#     legend.text = element_text(size = 10),
+#     legend.background = element_rect(
+#       size = 0.5, linetype = "solid",
+#       color = "grey")) +
+#
+#   ggtitle("Confidence over immersion points (Normalized & weighted)")
 
 ############################################
 
@@ -223,10 +218,14 @@ colnames(df) <- c("x.min", "x.lower", "x.middle", "x.upper", "x.max", "y.min", "
 # https://stackoverflow.com/questions/46068074/double-box-plots-in-ggplot2
 box <- ggplot(data=df) +
 
-  scale_x_continuous(limits = c(-.5, .7)) +
-  scale_y_continuous(limits = c(1, 7)) +
+    scale_x_continuous(
+      breaks = seq(-.1, 2.3, by = .25),
+      limits = c(-.1, 2.3)) +
+    scale_y_continuous(
+      breaks = seq(1, 7, by = 1),
+      limits = c(1, 7)) +
 
-  xlab("Confidence [μ(|x,y| * w])") + ylab("Immersion [μ]") +
+  xlab("Confidence [μ(|x,y| + w * 3.417])") + ylab("Immersion [μ]") +
 
   # 2D box defined by the Q1 & Q3 values in each dimension, with outline
   geom_rect(aes(
@@ -274,34 +273,47 @@ box <- ggplot(data=df) +
   geom_vline(xintercept = 0, linetype = "dashed", color = "black", alpha = .4) +
   geom_hline(yintercept = 4, linetype = "dashed", color = "black", alpha = .4) +
 
-  ggtitle("Confidence over immersion boxplot")
+  ggtitle("Confidence over immersion boxplot (Normalized & weighted)")
 
 box
-# plot
+ggsave(box, filename = "images/IOM_boxplot.png") # Save graph as PNG
 
 # Plot relative speed #
 df <- data.frame(participantData$Delta)
 df$Experience <- participantData$Experience
 colnames(df) <- c("Delta", "Experience")
+#
+# box = ggplot(df, aes(x = Delta, y = factor(Experience))) +
+#   geom_boxplot() +
+#   ylab("Virtual Reality Experience [sessions]") + xlab("Relative Speed [μP/μM]") +
+#   ggtitle("Relative average guardian speed by virtual reality experience") +
+#   scale_y_discrete(labels=c("1-5", "5-14", "15+"))
+#
+# box = ggplot(df, aes(x = Delta, y = "")) +
+#   geom_boxplot() +
+#   ylab("") + xlab("Relative Speed [μP/μM]") +
+#   ggtitle("Relative average guardian speed over all") +
+#   scale_y_discrete(labels=c(""))
+#
+# box = ggplot(IOM, aes(x = Time, y = factor(Guardian))) +
+#   geom_boxplot() +
+#   ylab("Guardian") + xlab("Time [s]") +
+#   ggtitle("Time taken completing task") +
+#   scale_y_discrete(labels=c("Perma", "Meta"))
 
-box = ggplot(df, aes(x = Delta, y = factor(Experience))) +
-  geom_boxplot() +
-  ylab("Virtual Reality Experience [sessions]") + xlab("Relative Speed [μP/μM]") +
-  ggtitle("Relative average guardian speed by virtual reality experience") +
-  scale_y_discrete(labels=c("1-5", "5-14", "15+"))
+box = ggplot(df, aes(x = Delta)) +
+  geom_histogram(aes(y = ..density..), colour="black", fill="white", binwidth = .1)+
+  geom_density(alpha=.2, fill="black") +
+  # geom_boxplot(aes(y = -.5)) +
+  geom_vline(aes(xintercept = mean(Delta)),
+             color = "blue", size = 1) +
+  geom_vline(aes(xintercept = 1.0),
+             color = "black", linetype = "dashed", size = .5) +
 
-box = ggplot(df, aes(x = Delta, y = "")) +
-  geom_boxplot() +
-  ylab("") + xlab("Relative Speed [μP/μM]") +
-  ggtitle("Relative average guardian speed over all") +
-  scale_y_discrete(labels=c(""))
+  scale_x_continuous(breaks = seq(-2, 6, by = 1)) +
 
-box = ggplot(IOM, aes(x = Time, y = factor(Guardian))) +
-  geom_boxplot() +
-  ylab("Guardian") + xlab("Time [s]") +
-  ggtitle("Time taken completing task") +
-  scale_y_discrete(labels=c("Perma", "Meta"))
-
+  ylab("Count") + xlab("Relative weighted confidence [CP/CM]") +
+  ggtitle("Relative weighted confidence score over all (Normalized)")
 box
 ggsave(box, filename = "images/IOM_boxplot.png") # Save graph as PNG
 
