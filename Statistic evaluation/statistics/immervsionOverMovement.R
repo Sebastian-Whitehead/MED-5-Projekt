@@ -67,7 +67,7 @@ for (i in 1:length(lines)) {
   # # Calculate the C-value for each row
   tmp_participant <- transform(
     tmp_participant, # Chose participant
-    C = (sqrt(X*X + Z*Z) + W * 3.417)) # Calculate C-value
+    C = (sqrt(X*X + Z*Z) * W)) # Calculate C-value
 
   # tmp_participant$C = abs(tmp_participant$W)
 
@@ -86,11 +86,11 @@ for (i in 1:length(lines)) {
   # tmp_locationCMean <- round(mean(positiveW), 3) # Calculate "C" location mean
   tmp_surveyMean <- round(meanSurvey[i], 3) # Survey mean
   tmp_vrExperience <- vrExperience[tmp_participantId] # VR experience
-  tmp_firstTrial <- i %% 2 # Trail is first of participant
+  tmp_firstTrial <- i %% 2 # Trial is first of participant
   tmp_time <- length(tmp_participant$C)
 
-  trail <- c(tmp_participantId, tmp_locationCMean, tmp_surveyMean, tmp_time, tmp_guardianId, tmp_firstTrial) # Construct package
-  IOM <- rbind(IOM, trail) # Append data package
+  Trial <- c(tmp_participantId, tmp_locationCMean, tmp_surveyMean, tmp_time, tmp_guardianId, tmp_firstTrial) # Construct package
+  IOM <- rbind(IOM, Trial) # Append data package
 }
 colnames(IOM) <- dataFrameNames # Column names
 IOM <- data.frame(IOM) # Convert to data.frame
@@ -136,72 +136,72 @@ guardiansData <- data.frame(guardiansData) # Convert to data.frame
 colnames(guardianMeans) <- dataFrameNames
 
 ########## Show data ##########
-# plot <- ggplot() +
-#
-#   # Make lines between participant points
-#   geom_segment(data = participantData,
-#                aes(x = Movement1, y = Immersion1, xend = Movement2, yend = Immersion2),
-#                size = .5, color = "grey", show.legend = TRUE) +
-#
-#   # Make points and mean
-#   geom_point(data = IOM,
-#              aes(x = Movement, y = Immersion,
-#                  color = factor(Guardian), fill = factor(Guardian),
-#                  shape = factor(Data)), size = 2, stroke = 1.5, alpha = .7) +
-#
-#   # Make first trail of each participant points
-#   geom_point(data = participantData,
-#              aes(x = Movement1, y = Immersion1),
-#              size = 2, pch = 21, alpha = .7) +
-#
-#   # Make first trail of each participant points
-#   geom_point(data = guardianMeans,
-#              aes(x = Movement, y = Immersion, color=factor(Guardian)),
-#              size = 5, pch = 4, alpha = 1, stroke = 2) +
-#
-#   # Make zero line
-#   geom_vline(xintercept = 0, linetype = "dashed", color = "black", alpha = .4) +
-#   geom_hline(yintercept = 4, linetype = "dashed", color = "black", alpha = .4) +
-#
-#   # Update visuals and legend of properties
-#   scale_fill_manual(
-#     values = colors,
-#     guide = "none") +
-#   scale_color_manual(
-#     name = "Guardian",
-#     values = colors,
-#     labels = guardians) +
-#   scale_shape_manual(
-#     name = "Data type",
-#     values = c(16, 21, 4),
-#     labels = c("Trail", "First", "Mean")) +
-#   scale_linetype_manual(
-#     name = "Participant",
-#     values = c("Connection" = 1)) +
-#
-#   # Update x- and y-axis properties
-#   xlab("Confidence [μ(|x,y| + w * 3.417])") + ylab("Immersion [μ]") +
-#   scale_x_continuous(
-#     breaks = seq(-.1, 3, by = .1),
-#     limits = c(-.1, 3)) +
-#   scale_y_continuous(
-#     breaks = seq(1, 7, by = 1),
-#     limits = c(1, 7)) +
-#
-#   # Update legend properties
-#   theme(
-#     legend.position = c(.95, .95),
-#     legend.justification = c("right", "top"),
-#     legend.box.just = "right",
-#     legend.margin = margin(6, 6, 6, 6),
-#
-#     legend.title = element_text(face = "bold"),
-#     legend.text = element_text(size = 10),
-#     legend.background = element_rect(
-#       size = 0.5, linetype = "solid",
-#       color = "grey")) +
-#
-#   ggtitle("Confidence over immersion points (Normalized & weighted)")
+plot <- ggplot() +
+
+  ggtitle("Confidence over immersion points (Normalized)") +
+
+  # Make lines between participant points
+  geom_segment(data = participantData,
+               aes(x = Movement1, y = Immersion1, xend = Movement2, yend = Immersion2),
+               size = .5, color = "grey", show.legend = TRUE) +
+
+  # Make points and mean
+  geom_point(data = IOM,
+             aes(x = Movement, y = Immersion,
+                 color = factor(Guardian), fill = factor(Guardian),
+                 shape = factor(Data)), size = 2, stroke = 1.5, alpha = .7) +
+
+  # Make first Trial of each participant points
+  geom_point(data = participantData,
+             aes(x = Movement1, y = Immersion1),
+             size = 2, pch = 21, alpha = .7) +
+
+  # Make first Trial of each participant points
+  geom_point(data = guardianMeans,
+             aes(x = Movement, y = Immersion, color=factor(Guardian)),
+             size = 5, pch = 4, alpha = 1, stroke = 2) +
+
+  # Make zero line
+  geom_vline(xintercept = 0, linetype = "dashed", color = "black", alpha = .4) +
+  geom_hline(yintercept = 4, linetype = "dashed", color = "black", alpha = .4) +
+
+  # Update visuals and legend of properties
+  scale_fill_manual(
+    values = colors,
+    guide = "none") +
+  scale_color_manual(
+    name = "Guardian",
+    values = colors,
+    labels = guardians) +
+  scale_shape_manual(
+    name = "Data type",
+    values = c(16, 21, 4),
+    labels = c("Trial", "First", "Mean")) +
+  scale_linetype_manual(
+    name = "Participant",
+    values = c("Connection" = 1)) +
+
+  # Update x- and y-axis properties
+  xlab("Confidence [μ(|x,y| * w])") + ylab("Immersion [μ]") +
+  scale_x_continuous(
+    breaks = seq(-.5, .7, by = .1),
+    limits = c(-.5, .7)) +
+  scale_y_continuous(
+    breaks = seq(1, 7, by = 1),
+    limits = c(1, 7)) +
+
+  # Update legend properties
+  theme(
+    legend.position = c(.95, .95),
+    legend.justification = c("right", "top"),
+    legend.box.just = "right",
+    legend.margin = margin(6, 6, 6, 6),
+
+    legend.title = element_text(face = "bold"),
+    legend.text = element_text(size = 10),
+    legend.background = element_rect(
+      size = 0.5, linetype = "solid",
+      color = "grey"))
 
 ############################################
 
@@ -217,6 +217,8 @@ colnames(df) <- c("x.min", "x.lower", "x.middle", "x.upper", "x.max", "y.min", "
 
 # https://stackoverflow.com/questions/46068074/double-box-plots-in-ggplot2
 box <- ggplot(data=df) +
+
+  ggtitle("Weighted confidence over immersion boxplot (Normalized)") +
 
     scale_x_continuous(
       breaks = seq(-.1, 2.3, by = .25),
@@ -271,18 +273,15 @@ box <- ggplot(data=df) +
 
   # Make zero line
   geom_vline(xintercept = 0, linetype = "dashed", color = "black", alpha = .4) +
-  geom_hline(yintercept = 4, linetype = "dashed", color = "black", alpha = .4) +
-
-  ggtitle("Confidence over immersion boxplot (Normalized & weighted)")
-
-box
-ggsave(box, filename = "images/IOM_boxplot.png") # Save graph as PNG
+  geom_hline(yintercept = 4, linetype = "dashed", color = "black", alpha = .4)
 
 # Plot relative speed #
 df <- data.frame(participantData$Delta)
 df$Experience <- participantData$Experience
 colnames(df) <- c("Delta", "Experience")
-#
+df <- mapply(df, FUN=as.numeric)
+df <- data.table(df)
+
 # box = ggplot(df, aes(x = Delta, y = factor(Experience))) +
 #   geom_boxplot() +
 #   ylab("Virtual Reality Experience [sessions]") + xlab("Relative Speed [μP/μM]") +
@@ -301,22 +300,25 @@ colnames(df) <- c("Delta", "Experience")
 #   ggtitle("Time taken completing task") +
 #   scale_y_discrete(labels=c("Perma", "Meta"))
 
-box = ggplot(df, aes(x = Delta)) +
-  geom_histogram(aes(y = ..density..), colour="black", fill="white", binwidth = .1)+
-  geom_density(alpha=.2, fill="black") +
-  # geom_boxplot(aes(y = -.5)) +
-  geom_vline(aes(xintercept = mean(Delta)),
-             color = "blue", size = 1) +
+ggplot(df, aes(x = Delta)) +
+
+  ggtitle("Relative weighted confidence score over all (Normalized)") +
+
+  geom_histogram(aes(y = ..density..), color = "black", fill = "white", binwidth = 1)
+  geom_density(alpha = .2, fill = "black") +
   geom_vline(aes(xintercept = 1.0),
              color = "black", linetype = "dashed", size = .5) +
 
   scale_x_continuous(breaks = seq(-2, 6, by = 1)) +
 
-  ylab("Count") + xlab("Relative weighted confidence [CP/CM]") +
-  ggtitle("Relative weighted confidence score over all (Normalized)")
-box
-ggsave(box, filename = "images/IOM_boxplot.png") # Save graph as PNG
+  ylab("Count") + xlab("Relative weighted confidence [CP/CM]")
 
-IOM
-participantData
-guardianMeans
+df <- participantData$Delta
+data_numeric <- as.numeric(df)
+hist(data_numeric, breaks = 25)
+boxplot(data_numeric)
+abline(h = 1, col = "Red")
+
+# box
+ggsave(plot, filename = "images/IOM_boxplot.png") # Save graph as PNG
+
