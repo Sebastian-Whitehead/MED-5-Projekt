@@ -30,7 +30,7 @@ colnames(UXsurveyData) <- c("Usefull", "Helpfull", "Comfortable")     # Name UX 
 meanSurvey <- strtoi(list()) # Initialize empty list for mean matrix
 for (i in 1:nrow(surveyDataImmersion)) {
   tmp_participant_survey <- matrix(unlist(surveyDataImmersion[i,]), nrow = surveryQuestions) # Cut to matrix
-  tmp_inverted_survey <- abs(tmp_participant_survey - replicate(2, matrix(invertSurvey)[,1]) * 7) # Invert survey
+  tmp_inverted_survey <- abs(tmp_participant_survey - replicate(2, matrix(invertSurvey)[,1]) * 8) # Invert survey
   tmp_surveyMean <- colMeans(tmp_inverted_survey) # Get mean of survey
   meanSurvey <- rbind(meanSurvey, tmp_surveyMean) # Append data to list
 }
@@ -282,6 +282,7 @@ ggplot(participantData, aes(x = DeltaConfidence)) + ggtitle("Absolute relative c
   scale_x_continuous(breaks = seq(-2, 6, by = .1)) +
 
   ylab("Frequency") + xlab("Absolute relative confidence [Pμ/Mμ]")
+median(participantData$DeltaConfidence)
 
 # Relative confidence
 ggplot(participantData, aes(x = DeltaConfidence, y = "")) + ggtitle("Relative confidence score") +
@@ -308,6 +309,7 @@ ggplot(participantData, aes(x = DeltaSpeed, y = "")) + ggtitle("Relative average
   geom_vline(aes(xintercept = 1), color = "red", linetype = "dashed", size = .8) +
   ylab("") + xlab("Relative speed [Pμ/Mμ]") +
   scale_y_discrete(labels=c(""))
+median(participantData$DeltaSpeed)
 
 # Plot user experience from survey
 par(mfrow=c(1, 3)) # Enable 3 plots along x-axis
