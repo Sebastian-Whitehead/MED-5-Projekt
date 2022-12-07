@@ -256,7 +256,9 @@ ggplot(participantData, aes(x = DeltaSpeed, y = factor(Experience))) + ggtitle("
   geom_boxplot() +
   geom_vline(aes(xintercept = 1), color = "red", linetype = "dashed", size = .8) +
   ylab("Virtual Reality Experience [sessions]") + xlab("Relative Speed [Pμ/Mμ]") +
-  scale_y_discrete(labels=c("1-5", "5-14", "15+"))
+  scale_y_discrete(labels=c("1-5", "5-14", "15+")) +
+  scale_x_continuous(breaks = seq(.8, 1.3, by = .05))
+median(subset(participantData, Experience == 4, select = c(DeltaSpeed))$DeltaSpeed)
 
 # Relative confidence by VR experience
 ggplot(participantData, aes(x = DeltaConfidence, y = factor(Experience))) + ggtitle("Relative confidence by VR experience") +
@@ -313,7 +315,7 @@ median(participantData$DeltaSpeed)
 
 # Plot user experience from survey
 par(mfrow=c(1, 3)) # Enable 3 plots along x-axis
-hist(UXsurveyData$Usefull, breaks = 5, main = "Usefull", ylim = c(0, 14), xlab = "Perma                                         Meta")
-hist(UXsurveyData$Helpfull, breaks = 5, main = "Helpfull", ylim = c(0, 14), xlab = "Perma                                         Meta")
-hist(UXsurveyData$Comfortable, breaks = 5, main = "Comfortable", ylim = c(0, 14), xlab = "Perma                                         Meta")
+hist(UXsurveyData$Usefull, breaks = 6, main = "Usefull", ylim = c(0, 14), xlab = "Perma                                         Meta")
+hist(UXsurveyData$Helpfull, breaks = 6, main = "Helpfull", ylim = c(0, 14), xlab = "Perma                                         Meta")
+hist(UXsurveyData$Comfortable, breaks = 6, main = "Comfortable", ylim = c(0, 14), xlab = "Perma                                         Meta")
 par(mfrow=c(1, 1)) # Disable multiple plots
