@@ -22,8 +22,8 @@ When in the two subsequent testing enviroments the users head position is logged
 The packaged guardians shader material has a series of settings which allow adjustment of its' visual appearance. These include the following:
 
 ###### Major & Minor sections:
-- **Lower Lerp:** Bottom Point for either of the two overlapping gradients  
-- **Upper Lerp:** Top Height for either of the two overlapping gradients
+- **Lower Lerp:** Bottom point for either of the two overlapping gradients  
+- **Upper Lerp:** Top height for either of the two overlapping gradients
 - **Trans:** Transparency for the given gradient
 
 ###### Overall:
