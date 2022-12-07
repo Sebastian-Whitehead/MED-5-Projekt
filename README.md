@@ -31,11 +31,11 @@ The packaged guardians shader material has a series of settings which allow adju
 ***
 
 ### Authors:
-*Unity Environment & VR integration:* Sebastian Whitehead
-*Shaders:* Tonko Bossen & Charlotte Johansen
-*Data logging procedure:* Tobias Kiholm
-*Setup Prodcedure / Scene:* Rebecca Hansen & Sebastian Whitehead
-*3D models:* Tonko Bossen, Charlotte Johansen, Tobias Kiholm & Rebecca Hansen
+- *Unity Environment & VR integration:* Sebastian Whitehead
+- *Shaders:* Tonko Bossen & Charlotte Johansen
+- *Data logging procedure:* Tobias Kiholm
+- *Setup Prodcedure / Scene:* Rebecca Hansen & Sebastian Whitehead
+- *3D models:* Tonko Bossen, Charlotte Johansen, Tobias Kiholm & Rebecca Hansen
 ***
 
 ### Sources: 
