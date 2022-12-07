@@ -37,7 +37,7 @@ for (i in 1:length(lines)) {
 
   # Calculate box number and append til list
   halfX = round(tmp_participant$X * guardianSize + matrixSize / 2 - .5)
-  halfZ = round(tmp_participant$Z * guardianSize + matrixSize / 2 + .5)
+  halfZ = round(tmp_participant$Z * guardianSize + matrixSize / 2 + .25)
 
   boxNumber <- (halfX * matrixSize + halfZ)
 
@@ -52,15 +52,13 @@ for (i in 1:length(lines)) {
 # Constant variables
 fields = matrixSize * matrixSize # Total amount of "fields"
 
-tmp_box <- boxNumbersPerma
-
 # Construct matrix/grid
-x <- paste0(1:matrixSize) # Make x-axis
-y <- paste0(1:matrixSize) # Make y-axis
-tmp_heat <- expand.grid(X = x, Y = y) # Make grid
+x <- paste0(1:matrixSize)               # Make x-axis
+y <- paste0(1:matrixSize)               # Make y-axis
+tmp_heat <- expand.grid(X = x, Y = y)   # Make grid
 
 # Convert data to histogram
-placeList <- (unlist(tmp_box)) # Flatten placement matrix
+placeList <- (unlist(boxNumbersPerma)) # Flatten placement matrix
 min(placeList)
 max(placeList)
 placeHist <- hist(placeList, breaks=0:fields) # Get histogram of "placement"
@@ -71,32 +69,31 @@ tmp_heat$value <- placeValues # Insert "placement" data to heatmap
 tmp_heat <- mapply(tmp_heat, FUN=as.numeric)
 tmp_heat <- data.table(tmp_heat)
 
+####### 2D heatmap #######
 ggplot() + coord_equal() +
 
   ggtitle(paste(c(guardians[showGuardian], "heatmap tracking location for each frame"), collapse=" ")) +
+
+  xlab("X") + ylab("Z") +
 
   geom_tile(data = tmp_heat,
   aes(x = X, y = Y, fill = value), # Insert data
   color = "white", lwd = 1, linetype = 1) + # Margin line
 
-  scale_fill_gradientn(
-    colours = c("white", "blue", "red"), # Gradient color
-    values = scales::rescale(c(-1, -0.5, 0, 0.5, 1))) + # Gradient scale
-
-  scale_x_continuous(
-    breaks = seq(1, 15, by = 1),
-    label = seq(-matrixSize/2 + .5, matrixSize/2 - .5, by = 1)) +
-
-  scale_y_continuous(
-    breaks = seq(1, 15, by = 1),
-    label = seq(-matrixSize/2 + .5, matrixSize/2 - .5, by = 1)) +
-
-  xlab("X") + ylab("Z") +
-
   geom_rect(aes(
     xmin = matrixSize / 2 - matrixSize / guardianSize + 1, ymin = matrixSize / 2 - matrixSize / guardianSize + 1,
     xmax = matrixSize / 2 + matrixSize / guardianSize, ymax = matrixSize / 2 + matrixSize / guardianSize),
-    alpha = .0, color = "grey", fill = "white", lwd = 2.5) +
+    alpha = .0, color = "darkgreen", fill = "white", lwd = 1.5) +
+
+  scale_fill_gradientn(
+    colours = c("white", "blue", "red"), # Gradient color
+    values = scales::rescale(c(-1, -0.5, 0, 0.5, 1))) + # Gradient scale
+  scale_x_continuous(
+    breaks = seq(1, 15, by = 1),
+    label = seq(-matrixSize/2 + .5, matrixSize/2 - .5, by = 1)) +
+  scale_y_continuous(
+    breaks = seq(1, 15, by = 1),
+    label = seq(-matrixSize/2 + .5, matrixSize/2 - .5, by = 1)) +
 
   # Update legend properties
   theme(
@@ -107,26 +104,20 @@ ggplot() + coord_equal() +
     barwidth = 1, barheight = 10, # Legend properties
     title = "Density")) # Title text
 
-
+####### 3D heatmap #######
 x = seq(-matrixSize/2 + 1, matrixSize/2, by = 1)
 y = seq(matrixSize/2, -matrixSize/2 + 1, by = -1)
+z = matrix(placeValues, nrow = matrixSize, ncol = matrixSize, byrow = TRUE) # Convert Z values into a matrix.
 
-# Convert Z values into a matrix.
-z = matrix(placeValues, nrow = matrixSize, ncol = matrixSize, byrow = TRUE)
-
-# hist3D(
-#   x, y, z,
-#   main = paste(c(guardians[showGuardian], "3D heatmap tracking location for each frame"), collapse=" "),
-#   clab = "Density",
-#   colkey = list(side = 4, length = .7, width = .5),
-#   theta = 110, phi = 35, bty = "b2",
-#   col = jet.col(10, alpha = .8),
-#   nticks = matrixSize * .5, ticktype = "detailed", space = 0.2)
-#
-# box3D(x0 = - matrixSize / guardianSize + 1, y0 = -matrixSize / guardianSize + 1, z0 = 0,
-#       x1 = matrixSize / guardianSize, y1 = matrixSize / guardianSize, z1 = 1,
-#       col = "lightblue", alpha = .2,
-#       border = "lightgrey", lwd = 1, add = TRUE)
-
-# box
-# ggsave(test, filename = "images/IOM_boxplot.png") # Save graph as PNG
+hist3D(
+  x, y, z,
+  main = paste(c(guardians[showGuardian], "3D heatmap tracking location for each frame"), collapse=" "),
+  clab = "Density",
+  colkey = list(side = 4, length = .7, width = .5),
+  theta = 110, phi = 35, bty = "b2",
+  col = jet.col(100, alpha = .9),
+  nticks = matrixSize * .5, ticktype = "detailed", space = 0.2)
+box3D(x0 = - matrixSize / guardianSize + 1, y0 = -matrixSize / guardianSize + 1, z0 = 0,
+      x1 = matrixSize / guardianSize, y1 = matrixSize / guardianSize, z1 = 1,
+      col = "darkgreen", alpha = .2,
+      border = "lightgrey", lwd = .5, add = TRUE)

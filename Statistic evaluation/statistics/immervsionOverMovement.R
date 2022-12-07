@@ -26,13 +26,6 @@ surveyDataImmersion <- surveyData[, -c(1, 2, 3, 12, 13, 22, 23, 24)]  # Remove q
 UXsurveyData <- surveyData[, c(22, 23, 24)]                           # Remove questions from survey
 colnames(UXsurveyData) <- c("Usefull", "Helpfull", "Comfortable")     # Name UX survey matrix
 
-# Plot user experience from survey
-par(mfrow=c(1, 3)) # Enable 3 plots along x-axis
-hist(UXsurveyData$Usefull, breaks = 5, main = "Usefull", ylim = c(0, 14), xlab = "Perma                                         Meta")
-hist(UXsurveyData$Helpfull, breaks = 5, main = "Helpfull", ylim = c(0, 14), xlab = "Perma                                         Meta")
-hist(UXsurveyData$Comfortable, breaks = 5, main = "Comfortable", ylim = c(0, 14), xlab = "Perma                                         Meta")
-par(mfrow=c(1, 1)) # Disable multiple plots
-
 # Invert each survey question and get the mean
 meanSurvey <- strtoi(list()) # Initialize empty list for mean matrix
 for (i in 1:nrow(surveyDataImmersion)) {
@@ -134,6 +127,7 @@ for (i in 1:length(guardians)) {
   bp <- boxplot(guardianBoxData)
   data <- c(bp$stats[, 1], bp$stats[, 2])
   boxData <- rbind(boxData, c(data, i))
+  print(bp$out)
 }
 boxData <- data.frame(boxData)
 colnames(boxData) <- c("x.min", "x.lower", "x.middle", "x.upper", "x.max",
@@ -212,7 +206,7 @@ ggplot(data=boxData) + ggtitle("Confidence over immersion box-plot") +
   xlab("Confidence [μ(|x,y| * w])") + ylab("Immersion [μ]") +
 
   scale_x_continuous(
-    breaks = seq(.1, .6, by = 05),
+    breaks = seq(.1, .6, by = .05),
     limits = c(.1, .6)) +
   scale_y_continuous(
     breaks = seq(1, 7, by = 1),
@@ -225,14 +219,16 @@ ggplot(data=boxData) + ggtitle("Confidence over immersion box-plot") +
     fill = factor(Guardian)), color = "black", alpha = .5) +
 
   # Whiskers for x-axis dimension with ends
-  geom_segment(aes(x = x.min, y = y.middle, xend = x.max, yend = y.middle, color = factor(Guardian))) + #whiskers
-  geom_segment(aes(x = x.min, y = y.lower, xend = x.min, yend = y.upper, color = factor(Guardian))) + #lower end
-  geom_segment(aes(x = x.max, y = y.lower, xend = x.max, yend = y.upper, color = factor(Guardian))) + #upper end
+  geom_segment(aes(x = x.min, y = y.middle, xend = x.max, yend = y.middle, color = factor(Guardian))) + # whiskers
+  geom_segment(aes(x = x.min, y = y.lower, xend = x.min, yend = y.upper, color = factor(Guardian))) + # lower end
+  geom_segment(aes(x = x.max, y = y.lower, xend = x.max, yend = y.upper, color = factor(Guardian))) + # upper end
 
   # Whiskers for y-axis dimension with ends
-  geom_segment(aes(x = x.middle, y = y.min, xend = x.middle, yend = y.max, color = factor(Guardian))) + #whiskers
-  geom_segment(aes(x = x.lower, y = y.min, xend = x.upper, yend = y.min, color = factor(Guardian))) + #lower end
-  geom_segment(aes(x = x.lower, y = y.max, xend = x.upper, yend = y.max, color = factor(Guardian))) + #upper end
+  geom_segment(aes(x = x.middle, y = y.min, xend = x.middle, yend = y.max, color = factor(Guardian))) + # whiskers
+  geom_segment(aes(x = x.lower, y = y.min, xend = x.upper, yend = y.min, color = factor(Guardian))) + # lower end
+  geom_segment(aes(x = x.lower, y = y.max, xend = x.upper, yend = y.max, color = factor(Guardian))) + # upper end
+
+  geom_point(x = 0.501, y = boxData$y.middle[1], color = colors[1]) +
 
   # Update visuals and legend of properties
   scale_fill_manual(
@@ -312,3 +308,10 @@ ggplot(participantData, aes(x = DeltaSpeed, y = "")) + ggtitle("Relative average
   geom_vline(aes(xintercept = 1), color = "red", linetype = "dashed", size = .8) +
   ylab("") + xlab("Relative speed [Pμ/Mμ]") +
   scale_y_discrete(labels=c(""))
+
+# Plot user experience from survey
+par(mfrow=c(1, 3)) # Enable 3 plots along x-axis
+hist(UXsurveyData$Usefull, breaks = 5, main = "Usefull", ylim = c(0, 14), xlab = "Perma                                         Meta")
+hist(UXsurveyData$Helpfull, breaks = 5, main = "Helpfull", ylim = c(0, 14), xlab = "Perma                                         Meta")
+hist(UXsurveyData$Comfortable, breaks = 5, main = "Comfortable", ylim = c(0, 14), xlab = "Perma                                         Meta")
+par(mfrow=c(1, 1)) # Disable multiple plots
