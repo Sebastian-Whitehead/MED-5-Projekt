@@ -5,9 +5,9 @@ holder = []
 
 path = "..\..\VR 2 trying again\Assets\CSV\Saved_data.csv"
 path = "data_-_Copy_NormalisedOnly.csv"
-path = "data.csv"
+path = "test_data.csv"
 
-saveFile = 'oneLineLocations_non-normalized.csv'
+saveFile = 'test_data_formed.csv'
 
 with open(path, newline='') as csvfile:
     spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
