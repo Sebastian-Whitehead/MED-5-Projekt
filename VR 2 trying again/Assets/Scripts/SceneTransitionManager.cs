@@ -12,8 +12,8 @@ public class SceneTransitionManager : MonoBehaviour
 
     private void Start()
     {
-        _soundSource = gameObject.GetComponent<AudioSource>();
-        _soundSource.Play();
+        _soundSource = gameObject.GetComponent<AudioSource>();          // Get audio source component
+        _soundSource.Play();                        
     }
 
     public void GoToScene(string sceneName)
@@ -23,11 +23,11 @@ public class SceneTransitionManager : MonoBehaviour
     
     IEnumerator GoToSceneRoutine(string sceneName)
     {
-        fadeScreen.FadeOut();
-        yield return new WaitForSeconds(fadeScreen.defaultFadeDuration);
+        fadeScreen.FadeOut();                                            // Fade the fading screen to fill opacity
+        yield return new WaitForSeconds(fadeScreen.defaultFadeDuration); // Wait for the default fade duration
         
         //Launch the new scene
         SceneManager.LoadScene(sceneName);
-        _soundSource.Play();
+        _soundSource.Play();                                            // Play the transition sound
     }
 }

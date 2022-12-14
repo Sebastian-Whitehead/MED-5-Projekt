@@ -5,6 +5,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class HapticController : MonoBehaviour
 {
+    // Haptic controller with a series of overloaded functions for different ways of vibrating the respective controllers
     public XRBaseController defaultLeftController, defaultRightController;
     public static XRBaseController leftController, rightController;
 

@@ -5,7 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a96e6d6b-5426-43e1-a2ea-52c30638e941" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.VR 2 trying again/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.VR 2 trying again/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Hand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Hand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HandController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/HandController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HapticController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/HapticController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/OutOfBounds.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/OutOfBounds.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SceneTransitionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SceneTransitionManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/VRStartingPos.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/VRStartingPos.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/guardianFeedback.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/guardianFeedback.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,6 +110,10 @@
       <workItem from="1668502360505" duration="2832000" />
       <workItem from="1668603394340" duration="2098000" />
       <workItem from="1668676499480" duration="107000" />
+      <workItem from="1670403103918" duration="1000" />
+      <workItem from="1670403117958" duration="3029000" />
+      <workItem from="1670406195568" duration="122000" />
+      <workItem from="1670414446115" duration="2000" />
     </task>
     <servers />
   </component>

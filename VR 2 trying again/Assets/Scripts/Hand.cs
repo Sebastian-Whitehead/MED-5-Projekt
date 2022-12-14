@@ -15,22 +15,22 @@ public class Hand : MonoBehaviour
     private float _gripCurrent;      // Current grip float of model
     private float _triggerCurrent;   // Current trigger float of model 
     public float speed;              // Animation Interpolation Speed
+    
     private static readonly int Grip = Animator.StringToHash(AnimatorGripParam);
     private static readonly int Trigger = Animator.StringToHash(AnimatorTriggerParam);
-
     private const string AnimatorGripParam = "Grip"; // Animator Variable Name
     private const string AnimatorTriggerParam = "Trigger";    // Animator Variable Name
 
     private void Start()
     {
-        _animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();       // Retrieve hand animator
         _mesh = GetComponentInChildren<SkinnedMeshRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        AnimateHand();    
+        AnimateHand();    // Update the hand animator
     }
 
     internal void SetGrip(float v)      // Receive Grip Float 
@@ -45,21 +45,22 @@ public class Hand : MonoBehaviour
 
     void AnimateHand()
     {
-        if (_gripCurrent != _gripTarget)
+        if (_gripCurrent != _gripTarget) // Shift current grip value towards current position and update animator
         {
             //interpolates between current model position and received controller position at a given speed
             _gripCurrent = Mathf.MoveTowards(_gripCurrent, _gripTarget, Time.deltaTime * speed);  
             _animator.SetFloat(Grip, _gripCurrent);      //set parameter inside animator
         }
-        if (_triggerCurrent != _triggerTarget)
+        if (_triggerCurrent != _triggerTarget) // Shift current trigger value towards current position and update animator
         {
+            //interpolates between current model position and received controller position at a given speed
             _triggerCurrent = Mathf.MoveTowards(_triggerCurrent, _triggerTarget, Time.deltaTime * speed);
             _animator.SetFloat(Trigger, _triggerCurrent);    //set parameter inside animator
         }
 
     }
 
-    public void ToggleVisibility()
+    public void ToggleVisibility() // Toggle hand model visibility (Used when interacting with objects)
     {
         _mesh.enabled = !_mesh.enabled;
     }
