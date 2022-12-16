@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class OutOfBounds : MonoBehaviour
 {
-    public FadeScreen fadingScreen;
+    public FadeScreen fadingScreen; // Fade screen component on the fading screen game object
     
-    void OnTriggerEnter(Collider other) {
+    void OnTriggerEnter(Collider other) 
+    { // When the body game object leaves the collider obscure the view of the player with the fade screen
         if (other.gameObject.CompareTag("TrackingObject") && other.gameObject.name == "Body")
         {
             Debug.Log("Tracking object enter guardian");
@@ -14,8 +15,8 @@ public class OutOfBounds : MonoBehaviour
         }
     }
 
-    void OnTriggerExit(Collider other)
-    {
+    void OnTriggerExit(Collider other) 
+    { // When the body re-enters the play-space un-obscure the player view. 
         if (other.gameObject.CompareTag("TrackingObject") && other.gameObject.name == "Body")
         {
             Debug.Log("Tracking object exiting guardian");
