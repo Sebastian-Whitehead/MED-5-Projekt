@@ -107,7 +107,7 @@ for (i in seq(1, nrow(IOM)/2)) {
 participantData <- data.frame(participantData) # Convert to data.frame
 colnames(participantData) <- c(
   "Confidence1", "Confidence2", "Immersion1", "Immersion2", "Speed1", "Speed2",
-  "Guaridan1", "Guardian2", "Experience", "DeltaConfidence", "DeltaSpeed")
+  "Guardian1", "Guardian2", "Experience", "DeltaConfidence", "DeltaSpeed")
 
 # Get mean of each guardian Shape
 guardianMeans <- strtoi(list())
@@ -267,6 +267,8 @@ ggplot(participantData, aes(x = DeltaConfidence, y = factor(Experience))) + ggti
   ylab("Virtual Reality Experience [sessions]") + xlab("Relative confidence [Pμ/Mμ]") +
   scale_y_discrete(labels=c("1-5", "5-14", "15+"))
 
+median(subset(participantData, Experience == 4, select = c(DeltaSpeed))[,1])
+
 # Time taken completing task
 ggplot(IOM, aes(x = Time, y = factor(Guardian))) + ggtitle("Time taken completing task") +
   geom_boxplot() +
@@ -314,8 +316,16 @@ ggplot(participantData, aes(x = DeltaSpeed, y = "")) + ggtitle("Relative average
 median(participantData$DeltaSpeed)
 
 # Plot user experience from survey
-par(mfrow=c(1, 3)) # Enable 3 plots along x-axis
-hist(UXsurveyData$Usefull, breaks = 6, main = "Usefull", ylim = c(0, 14), xlab = "Perma                                         Meta")
-hist(UXsurveyData$Helpfull, breaks = 6, main = "Helpfull", ylim = c(0, 14), xlab = "Perma                                         Meta")
-hist(UXsurveyData$Comfortable, breaks = 6, main = "Comfortable", ylim = c(0, 14), xlab = "Perma                                         Meta")
-par(mfrow=c(1, 1)) # Disable multiple plots
+meltedUX = melt(data.table(UXsurveyData))
+ggplot(meltedUX, aes(x = value)) +
+  geom_bar(fill = "white", color = "black") +
+  facet_wrap(~variable) +
+  theme(
+    axis.title = element_text(face = "bold"),
+    strip.text = element_text(size = 15, face = "bold")) +
+  scale_y_continuous(breaks = seq(0, 11, by = 1)) +
+  ylab("Frequency") + xlab("Perma                            Meta      Perma                              Meta      Perma                             Meta")
+
+subset(participantData, Guardian1 == 1, select = c(Immersion1))
+subset(IOM, Guardian == 2, select = c(Speed, Confidence, Immersion))
+subset(participantData, Guardian2 == 1, select = c(Immersion2))

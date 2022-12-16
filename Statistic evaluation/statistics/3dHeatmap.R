@@ -2,6 +2,7 @@
 
 library(plot3D)
 library(data.table)
+library(cowplot)
 
 matrixSize = 15 # Number of physical "fields" in each dimension
 guardianSize = 3
@@ -41,7 +42,7 @@ for (i in 1:length(lines)) {
 
   boxNumber <- (halfX * matrixSize + halfZ)
 
-  if (guardianOrder[i] == showGuardian) {
+  if (guardianOrder[i] == 1) {
     boxNumbersPerma <- rbind(boxNumbersPerma, boxNumber)
   }
   print((as.numeric(tmp_participant$X)))
@@ -70,15 +71,15 @@ tmp_heat <- mapply(tmp_heat, FUN=as.numeric)
 tmp_heat <- data.table(tmp_heat)
 
 ####### 2D heatmap #######
-ggplot() + coord_equal() +
+sp <- ggplot() + coord_equal() +
 
-  ggtitle(paste(c(guardians[showGuardian], "heatmap tracking location for each frame"), collapse=" ")) +
+  # ggtitle(paste(c(guardians[showGuardian], "heatmap tracking location for each frame"), collapse=" ")) +
 
   xlab("X") + ylab("Z") +
 
   geom_tile(data = tmp_heat,
-  aes(x = X, y = Y, fill = value), # Insert data
-  color = "white", lwd = 1, linetype = 1) + # Margin line
+            aes(x = X, y = Y, fill = value), # Insert data
+            color = "white", lwd = 1, linetype = 1) + # Margin line
 
   geom_rect(aes(
     xmin = matrixSize / 2 - matrixSize / guardianSize + 1, ymin = matrixSize / 2 - matrixSize / guardianSize + 1,
@@ -103,6 +104,89 @@ ggplot() + coord_equal() +
   guides(fill = guide_colourbar(
     barwidth = 1, barheight = 10, # Legend properties
     title = "Density")) # Title text
+boxNumbersPerma = strtoi(list()) # Empty list for boxes
+for (i in 1:length(lines)) {
+
+  line <- gsub(" ", "", lines[i], fixed = FALSE) # Remove whitespace
+  line <- strsplit(line, ",") # Split string at ","/comma
+  tmp_participant <- data.table(t(matrix(unlist(line), nrow = locDataLength)))
+
+  tmp_participant <- mapply(tmp_participant, FUN=as.numeric) # Make matrix numeric
+  tmp_participant <- data.table(tmp_participant) # Remake data.table matrix
+  tmp_participant <- na.omit(tmp_participant) # Remove NaN data values
+
+  colnames(tmp_participant) <- c("X", "Y", "Z", "W") # Column names
+
+  # Calculate box number and append til list
+  halfX = round(tmp_participant$X * guardianSize + matrixSize / 2 - .5)
+  halfZ = round(tmp_participant$Z * guardianSize + matrixSize / 2 + .25)
+
+  boxNumber <- (halfX * matrixSize + halfZ)
+
+  if (guardianOrder[i] == 2) {
+    boxNumbersPerma <- rbind(boxNumbersPerma, boxNumber)
+  }
+  print((as.numeric(tmp_participant$X)))
+}
+
+###############################################################
+
+# Constant variables
+fields = matrixSize * matrixSize # Total amount of "fields"
+
+# Construct matrix/grid
+x <- paste0(1:matrixSize)               # Make x-axis
+y <- paste0(1:matrixSize)               # Make y-axis
+tmp_heat <- expand.grid(X = x, Y = y)   # Make grid
+
+# Convert data to histogram
+placeList <- (unlist(boxNumbersPerma)) # Flatten placement matrix
+min(placeList)
+max(placeList)
+placeHist <- hist(placeList, breaks=0:fields) # Get histogram of "placement"
+placeValues <- placeHist$counts # Get counts in histogram
+placeValues = (placeValues-min(placeValues))/(max(placeValues)-min(placeValues))
+tmp_heat$value <- placeValues # Insert "placement" data to heatmap
+
+tmp_heat <- mapply(tmp_heat, FUN=as.numeric)
+tmp_heat <- data.table(tmp_heat)
+
+####### 2D heatmap #######
+bp <- ggplot() + coord_equal() +
+
+  # ggtitle(paste(c(guardians[showGuardian], "heatmap tracking location for each frame"), collapse=" ")) +
+
+  xlab("X") + ylab("Z") +
+
+  geom_tile(data = tmp_heat,
+            aes(x = X, y = Y, fill = value), # Insert data
+            color = "white", lwd = 1, linetype = 1) + # Margin line
+
+  geom_rect(aes(
+    xmin = matrixSize / 2 - matrixSize / guardianSize + 1, ymin = matrixSize / 2 - matrixSize / guardianSize + 1,
+    xmax = matrixSize / 2 + matrixSize / guardianSize, ymax = matrixSize / 2 + matrixSize / guardianSize),
+    alpha = .0, color = "darkgreen", fill = "white", lwd = 1.5) +
+
+  scale_fill_gradientn(
+    colours = c("white", "blue", "red"), # Gradient color
+    values = scales::rescale(c(-1, -0.5, 0, 0.5, 1))) + # Gradient scale
+  scale_x_continuous(
+    breaks = seq(1, 15, by = 1),
+    label = seq(-matrixSize/2 + .5, matrixSize/2 - .5, by = 1)) +
+  scale_y_continuous(
+    breaks = seq(1, 15, by = 1),
+    label = seq(-matrixSize/2 + .5, matrixSize/2 - .5, by = 1)) +
+
+  # Update legend properties
+  theme(
+    legend.title = element_text(face = "bold"),
+    legend.text = element_text(size = 10)) +
+
+  guides(fill = guide_colourbar(
+    barwidth = 1, barheight = 10, # Legend properties
+    title = "Density")) # Title text
+
+plot_grid(sp, bp, labels=c("Perma", "Meta"), ncol = 2, nrow = 1)
 
 ####### 3D heatmap #######
 x = seq(-matrixSize/2 + 1, matrixSize/2, by = 1)
