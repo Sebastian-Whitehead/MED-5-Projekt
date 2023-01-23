@@ -121,17 +121,17 @@ Shader "Universal Render Pipeline/Fixed (Solo-pass)" {
                     UNITY_PROJ_COORD(i.screenuv)
                     ));
                 float partZ = i.screenuv.z;
-                float intersect = (sceneZ - partZ) * 1000;
+                
+                float intersect = (sceneZ - partZ) * 1000;      // Subtract and max out
 
-                fixed4 gradients = make_gradients(i);
-                fixed4 col1 = gradients;
+                fixed4 gradients = make_gradients(i);           // Make gradient
+                fixed4 col1 = gradients;                        // Copy variable for out of seight gradient
+                col1.a *= saturate(-intersect) * _TransOOS;     // Times obscured parts with variable
 
-                col1.a *= saturate(-intersect) * _TransOOS;
+                fixed4 col2 = gradients;                        // Copy variable for in seight gradient
+                col2.a *= saturate(intersect);                  // Use in seight parts
 
-                fixed4 col2 = gradients;
-                col2.a *= saturate(intersect);
-
-                fixed4 col = col1 + col2;
+                fixed4 col = col1 + col2;                       // Add parts
 
                 return col;
             }
